@@ -31,7 +31,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ allVerses, currentFilters, on
 
   const selectClassName = cn(
     "px-3 py-2 rounded-lg min-h-[44px]",
-    "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
+    "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
     "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
     "transition-all duration-200",
     "hover:bg-vedic-sage/10"
@@ -40,7 +40,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ allVerses, currentFilters, on
   return (
     <div className={cn(
       "mb-6 md:mb-8 rounded-xl p-4 md:p-6",
-      "bg-card border border-vedic-sage/20 shadow-lg"
+      "bg-card border border-vedic-accent/20 shadow-lg"
     )}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
@@ -76,7 +76,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ allVerses, currentFilters, on
               type="text"
               className={cn(
                 "w-full pl-10 pr-4 py-2.5 rounded-lg min-h-[44px]",
-                "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
+                "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
                 "placeholder:text-muted-foreground",
                 "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
                 "transition-all duration-200"

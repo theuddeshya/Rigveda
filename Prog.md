@@ -1,43 +1,7 @@
 **Rigved-Explorer**
 
-## Project Overview
-
-Create a world-class, engaging web application for exploring the Rig Veda - matching the polish and UX excellence of quran.com and bible.com. This should be the definitive digital experience for Vedic scripture, combining beauty, scholarship, and intuitive interaction.
-
 ---
 
-## 🎨 Design Philosophy
-
-**Visual Identity:**
-
-- Inspired by Vedic aesthetics: sacred geometry, cosmic themes, natural elements
-- Color palette from Vedic deities and elements:
-    
-    Primary: Deep indigo `#2D3142` (cosmic/night)
-    
-    - Agni (fire): `#FF6B35`
-    - Ushas (dawn): `#FFD93D`
-    - Soma (moon): `#E8F1F5`
-    - Accent gold: `#D4AF37` for highlights
-- Typography:
-    - Sanskrit: Noto Serif Devanagari (authentic, highly readable)
-    - Transliteration: Gentium Plus (designed for IAST)
-    - English: Crimson Pro or Spectral (elegant serif for long-form reading)
-    - UI elements: Inter (clean, modern sans-serif)
-
-**UX Principles:**
-
-- **Immediate clarity**: User should understand purpose within 3 seconds
-- **Progressive disclosure**: Don't overwhelm - reveal depth gradually
-- **Respectful presentation**: This is sacred text - treat it with dignity
-- **Smooth, delightful interactions**: Micro-animations, smooth transitions
-- **Accessibility first**: WCAG AA compliant, keyboard navigation, screen reader friendly
-
----
-
-## 🏗️ Technical Architecture  ✔️ completed
-
-### Tech Stack  ✔️ completed
 
 ```
 Frontend: React 18+ with Vite
@@ -108,7 +72,6 @@ rigveda-explorer/
 │   ├── hooks/
 │   │   ├── useVerses.js (fetch & filter verses)
 │   │   ├── useBookmarks.js (localStorage management)
-│   │   ├── useTheme.js (dark/light mode)
 │   │   ├── useSearch.js (fuzzy search logic)
 │   │   └── useAI.js (Claude API integration)
 │   ├── store/
@@ -263,49 +226,9 @@ rigveda-explorer/
 }
 
 ```
-
 ---
 
 ## 🎯 Page Specifications
-
-### 1. HOME PAGE (`/`)
-
-**Layout:**
-
-```
-┌─────────────────────────────────────────────────┐
-│              Minimal Top Nav                     │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│           Hero Section (Full Height)             │
-│                                                  │
-│     ॐ भूर्भुवः स्वः (animated Sanskrit)          │
-│                                                  │
-│         Explore the Rig Veda                     │
-│    The oldest scripture of humanity              │
-│                                                  │
-│         [Begin Your Journey →]                   │
-│                                                  │
-│    ∼ Gentle particle animation background ∼      │
-│                                                  │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│         Quick Stats (3 cards)                    │
-│   10 Mandalas | 1,028 Hymns | 10,552 Verses     │
-│                                                  │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│         Featured Daily Verse                     │
-│      (Beautiful typography + context)            │
-│                                                  │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│    "What You Can Explore" (3-4 sections)        │
-│   [Read] [Visualize] [Learn] [Discover]         │
-│                                                  │
-└─────────────────────────────────────────────────┘
-
-```
 
 **Features:**
 
@@ -314,7 +237,6 @@ rigveda-explorer/
 - Particle system representing cosmic energy
 - Smooth scroll to sections
 - Verse of the day rotates based on date
-- Dark mode toggle in corner
 
 ---
 
@@ -938,7 +860,3 @@ Set up the following:
 Make it beautiful with good typography and spacing. Use the Crimson Pro font for body text.
 
 ```
-
-Then iterate from there, building feature by feature!
-
----

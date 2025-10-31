@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
 export type ScriptOption = 'devanagari' | 'iast' | 'both';
-export type ThemeOption = 'light' | 'dark' | 'auto';
 export type TranslationOption = 'Griffith' | 'Jamison-Brereton' | 'Wilson';
 
 export interface UserPrefs {
@@ -10,7 +9,6 @@ export interface UserPrefs {
   fontSize: number;
   lineSpacing: number;
   readingMode: 'scroll' | 'card' | 'parallel';
-  theme: ThemeOption;
   colorScheme: string;
   animationSpeed: number;
   reducedMotion: boolean;
@@ -29,7 +27,7 @@ const initialPrefs: Omit<UserPrefs, 'setPref' | 'setMulti'> = {
   fontSize: 20,
   lineSpacing: 1.5,
   readingMode: 'scroll',
-  theme: 'auto',
+  // theme removed — app uses system/default styles
   colorScheme: 'vedic',
   animationSpeed: 200,
   reducedMotion: false,

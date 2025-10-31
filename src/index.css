@@ -3,17 +3,17 @@
 
 @layer base {
   :root {
-    /* ColorHunt Earthy Palette - Light Mode (cream backgrounds) */
-    --background: 36 42% 88%;         /* #ECDFCC cream */
-    --foreground: 18 28% 7%;          /* #181C14 charcoal */
+    /* ColorHunt Earthy Palette - Dark Mode (charcoal backgrounds) - now default */
+    --background: 30 3% 22%;          /* #3C3D37 slate */
+    --foreground: 36 42% 88%;         /* #ECDFCC cream */
 
-    --card: 30 20% 24%;               /* #3C3D37 slate */
+    --card: 120 14% 10%;              /* #181C14 charcoal */
     --card-foreground: 36 42% 88%;    /* #ECDFCC cream */
 
-    --primary: 18 28% 7%;             /* #181C14 charcoal */
-    --primary-foreground: 36 42% 88%; /* #ECDFCC cream */
+    --primary: 36 42% 88%;            /* #ECDFCC cream */
+    --primary-foreground: 120 14% 10%; /* #181C14 charcoal */
 
-    --secondary: 30 20% 24%;          /* #3C3D37 slate */
+    --secondary: 120 14% 10%;         /* #181C14 charcoal */
     --secondary-foreground: 36 42% 88%; /* #ECDFCC cream */
 
     --muted: 40 9% 41%;               /* #697565 sage */
@@ -22,35 +22,35 @@
     --accent: 40 9% 41%;              /* #697565 sage */
     --accent-foreground: 36 42% 88%;  /* #ECDFCC cream */
 
-    --border: 30 20% 24%;             /* #3C3D37 slate */
-    --input: 30 20% 24%;              /* #3C3D37 slate */
+    --border: 40 9% 41%;              /* #697565 sage */
+    --input: 120 14% 10%;             /* #181C14 charcoal */
     --ring: 40 9% 41%;                /* #697565 sage */
 
     --radius: 0.5rem;
   }
 
-  .dark {
-    /* ColorHunt Earthy Palette - Dark Mode (charcoal backgrounds) */
-    --background: 18 28% 7%;          /* #181C14 charcoal */
-    --foreground: 36 42% 88%;         /* #ECDFCC cream */
+  .light {
+    /* Light Mode overrides */
+    --background: 36 42% 88%;         /* #ECDFCC cream */
+    --foreground: 120 14% 10%;        /* #181C14 charcoal */
 
-    --card: 30 20% 24%;               /* #3C3D37 slate */
-    --card-foreground: 36 42% 88%;    /* #ECDFCC cream */
+    --card: 0 0% 85%;                 /* #D9D9D2 UI light */
+    --card-foreground: 120 14% 10%;   /* #181C14 charcoal */
 
-    --primary: 36 42% 88%;            /* #ECDFCC cream */
-    --primary-foreground: 18 28% 7%;  /* #181C14 charcoal */
+    --primary: 120 14% 10%;           /* #181C14 charcoal */
+    --primary-foreground: 36 42% 88%; /* #ECDFCC cream */
 
-    --secondary: 30 20% 24%;          /* #3C3D37 slate */
-    --secondary-foreground: 36 42% 88%; /* #ECDFCC cream */
+    --secondary: 0 0% 85%;            /* #D9D9D2 UI light */
+    --secondary-foreground: 120 14% 10%; /* #181C14 charcoal */
 
     --muted: 40 9% 41%;               /* #697565 sage */
-    --muted-foreground: 36 42% 88%;   /* #ECDFCC cream */
+    --muted-foreground: 120 14% 10%;  /* #181C14 charcoal */
 
     --accent: 40 9% 41%;              /* #697565 sage */
     --accent-foreground: 36 42% 88%;  /* #ECDFCC cream */
 
-    --border: 30 20% 24%;             /* #3C3D37 slate */
-    --input: 30 20% 24%;              /* #3C3D37 slate */
+    --border: 40 9% 41%;              /* #697565 sage */
+    --input: 0 0% 85%;                /* #D9D9D2 UI light */
     --ring: 40 9% 41%;                /* #697565 sage */
   }
 }
@@ -103,14 +103,14 @@
 @layer utilities {
   /* Glass morphism effect */
   .glass {
-    background-color: rgba(var(--color-vedic-slate), 0.5);
+    background-color: rgba(var(--color-vedic-slate-rgb), 0.5);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(var(--color-vedic-sage), 0.2);
+    border: 1px solid rgba(var(--color-vedic-sage-rgb), 0.2);
   }
 
   /* Elevated card effect */
   .elevated {
-    box-shadow: 0 10px 15px -3px rgba(var(--color-vedic-charcoal), 0.2), 0 4px 6px -2px rgba(var(--color-vedic-charcoal), 0.1);
+    box-shadow: 0 10px 15px -3px rgba(var(--color-vedic-charcoal-rgb), 0.2), 0 4px 6px -2px rgba(var(--color-vedic-charcoal-rgb), 0.1);
   }
 
   /* Text gradient */
@@ -138,12 +138,12 @@
 
   /* Selection color */
   ::selection {
-    background-color: rgba(var(--color-vedic-sage), 0.3);
+    background-color: rgba(var(--color-vedic-sage-rgb), 0.3);
     color: var(--color-vedic-cream);
   }
 
   ::-moz-selection {
-    background-color: rgba(var(--color-vedic-sage), 0.3);
+    background-color: rgba(var(--color-vedic-sage-rgb), 0.3);
     color: var(--color-vedic-cream);
   }
 }

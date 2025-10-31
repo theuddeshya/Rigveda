@@ -1,8 +1,22 @@
-# React + TypeScript + Vite
+# Rigveda Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for exploring and studying the Rigveda, built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Color Theme
+
+The application supports both a light and a dark theme. Dark theme is the default; users can toggle between light and dark using the theme button in the top-right corner of the navbar. The app persists the user's choice.
+
+Light theme:
+- Background: `#ECDFCC` (cream)
+- Text: `#181C14` (charcoal)
+- UI elements (cards, nav): `#D9D9D2`
+- Accent: `#697565` (sage)
+
+Dark theme (default):
+- Background: `#3C3D37`
+- Text: `#ECDFCC`
+- UI Elements: `#181C14`
+- Accent: `#697565`
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

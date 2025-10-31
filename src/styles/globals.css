@@ -8,15 +8,10 @@
   body {
     margin: 0;
     font-family: var(--font-reading);
-    background-color: var(--color-vedic-soma);
-    color: var(--color-vedic-night);
+    background-color: var(--color-vedic-bg);
+    color: var(--color-vedic-text);
     transition: background-color var(--transition-speed) var(--transition-easing),
                 color var(--transition-speed) var(--transition-easing);
-  }
-
-  .dark body {
-    background-color: var(--color-vedic-night);
-    color: var(--color-vedic-soma);
   }
 
   /* Typography Classes */
@@ -45,17 +40,17 @@
     line-height: 1.5;
   }
 
-  /* Dark mode variants */
-  .dark .text-sanskrit,
-  .dark .text-transliteration,
-  .dark .text-reading,
-  .dark .text-ui {
-    color: var(--color-vedic-soma);
+  /* Ensure UI elements smoothly transition when theme switches */
+  :root,
+  .light {
+    transition: background-color var(--transition-speed) var(--transition-easing),
+                color var(--transition-speed) var(--transition-easing),
+                border-color var(--transition-speed) var(--transition-easing);
   }
 
   /* Focus styles for accessibility */
   *:focus {
-    outline: 2px solid var(--color-vedic-sky);
+    outline: 2px solid var(--color-vedic-accent);
     outline-offset: 2px;
   }
 }

@@ -6,6 +6,7 @@ import { useVerseStore } from '../store/verseStore';
 import { useVerses } from '../hooks/useVerses';
 import { useEffect } from 'react';
 import { cn } from '../lib/utils';
+import { Book, Compass, ScrollText, Users } from 'lucide-react';
 
 const Home = () => {
   const { verses, loading } = useVerses();
@@ -34,20 +35,14 @@ const Home = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl sm:text-6xl md:text-7xl font-sanskrit mb-8 text-center text-vedic-cream"
-          >ॐ भूर्भुवः स्वः</motion.h1>
+            className="text-7xl sm:text-8xl md:text-9xl font-sanskrit mb-8 text-center text-vedic-text"
+          >ऋग्वेद</motion.h1>
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-3xl sm:text-4xl mb-4 font-reading text-center text-vedic-cream"
+            className="text-3xl sm:text-4xl mb-4 font-reading text-center text-vedic-text"
           >Explore the Rig Veda</motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mb-10 text-lg text-center font-reading text-vedic-sage"
-          >The oldest scripture of humanity</motion.p>
           <motion.div
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -70,53 +65,10 @@ const Home = () => {
           </motion.div>
         </motion.section>
 
-        <section className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 py-8 sm:py-12 px-4 max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
-            className={cn(
-              "rounded-xl px-8 py-6 text-center",
-              "bg-card border border-vedic-sage/20 shadow-xl",
-              "hover:border-accent hover:shadow-2xl hover:shadow-accent/10",
-              "transition-all duration-300"
-            )}
-          >
-            <div className="text-4xl font-bold text-vedic-cream">10</div>
-            <div className="text-sm text-muted-foreground mt-2">Mandalas</div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1 }}
-            className={cn(
-              "rounded-xl px-8 py-6 text-center",
-              "bg-card border border-vedic-sage/20 shadow-xl",
-              "hover:border-accent hover:shadow-2xl hover:shadow-accent/10",
-              "transition-all duration-300"
-            )}
-          >
-            <div className="text-4xl font-bold text-vedic-cream">1,028</div>
-            <div className="text-sm text-muted-foreground mt-2">Hymns</div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2 }}
-            className={cn(
-              "rounded-xl px-8 py-6 text-center",
-              "bg-card border border-vedic-sage/20 shadow-xl",
-              "hover:border-accent hover:shadow-2xl hover:shadow-accent/10",
-              "transition-all duration-300"
-            )}
-          >
-            <div className="text-4xl font-bold text-vedic-cream">10,552</div>
-            <div className="text-sm text-muted-foreground mt-2">Verses</div>
-          </motion.div>
-        </section>
+        {/* Removed Mandala, Hymns, Verses cards from hero section as requested */}
 
         <section className="flex flex-col items-center py-12 sm:py-16 px-4 max-w-4xl mx-auto">
-          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-vedic-cream">Featured Daily Verse</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-vedic-text">Featured Daily Verse</h3>
           {loading ? (
             <div className="text-center text-muted-foreground">
               <div className="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-accent mb-4"></div>
@@ -136,69 +88,175 @@ const Home = () => {
           )}
         </section>
 
-        <section className="py-16 px-4 max-w-6xl mx-auto">
-          <h3 className="text-3xl sm:text-4xl font-bold mb-12 text-center text-vedic-cream">What You Can Explore</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Link to="/explore">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className={cn(
-                  "rounded-xl p-8 text-center cursor-pointer",
-                  "bg-card border border-vedic-sage/20",
+        {/* Learn About the Rig Veda */}
+        <section className="py-16 px-4 max-w-5xl mx-auto">
+          <h3 className="text-3xl md:text-4xl font-bold mb-8 text-center text-vedic-text">Learn About the Rig Veda</h3>
+
+          {/* Introduction */}
+          <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h4 className="text-2xl font-bold mb-4 text-vedic-text">What is the Rig Veda?</h4>
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                The Rig Veda is the oldest of the four Vedas and one of the oldest sacred texts in the world. Composed in Vedic Sanskrit between approximately 1500-1200 BCE, it consists of 1,028 hymns (suktas) arranged in 10 books (mandalas) containing 10,552 verses.
+              </p>
+              <p>
+                These hymns are primarily addressed to various deities and natural forces, expressing profound philosophical insights, cosmological concepts, and ritual practices of ancient Vedic civilization.
+              </p>
+            </div>
+          </div>
+
+          {/* Structure */}
+          <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h4 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
+              <Book size={24} />
+              Structure & Organization
+            </h4>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                  <h5 className="font-bold mb-2 text-foreground">10 Mandalas (Books)</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Books 2-7 are the oldest (Family Books), each attributed to a specific rishi family. Books 1, 8, 9, and 10 were compiled later.
+                  </p>
+                </div>
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                  <h5 className="font-bold mb-2 text-foreground">1,028 Hymns (Suktas)</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Each hymn is dedicated to a specific deity or concept, composed by ancient seers (rishis).
+                  </p>
+                </div>
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                  <h5 className="font-bold mb-2 text-foreground">10,552 Verses</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Composed in various poetic meters, primarily Gayatri, Trishtubh, and Jagati.
+                  </p>
+                </div>
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                  <h5 className="font-bold mb-2 text-foreground">Multiple Deities</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Major deities include Agni (fire), Indra (warrior god), Soma (sacred plant), and Ushas (dawn).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Deities */}
+          <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h4 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
+              <Users size={24} />
+              Principal Deities
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="border-l-4 border-vedic-agni pl-4">
+                <h5 className="font-bold text-lg mb-1 text-foreground">Agni (Fire)</h5>
+                <p className="text-sm text-muted-foreground">
+                  Mediator between humans and gods, messenger who carries offerings to the divine realm. Most frequently mentioned deity.
+                </p>
+              </div>
+              <div className="border-l-4 border-vedic-gold pl-4">
+                <h5 className="font-bold text-lg mb-1 text-foreground">Indra (Thunder & War)</h5>
+                <p className="text-sm text-muted-foreground">
+                  King of the gods, warrior deity who battles demons and brings rain. Second most mentioned deity.
+                </p>
+              </div>
+              <div className="border-l-4 border-vedic-soma pl-4">
+                <h5 className="font-bold text-lg mb-1 text-foreground">Soma (Sacred Plant)</h5>
+                <p className="text-sm text-muted-foreground">
+                  Deity of the sacred plant and its intoxicating juice used in rituals. Entire Mandala 9 is dedicated to Soma.
+                </p>
+              </div>
+              <div className="border-l-4 border-vedic-ushas pl-4">
+                <h5 className="font-bold text-lg mb-1 text-foreground">Ushas (Dawn)</h5>
+                <p className="text-sm text-muted-foreground">
+                  Goddess of dawn, symbol of renewal and consciousness. Associated with beauty and awakening.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Reading Guide */}
+          <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h4 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
+              <Compass size={24} />
+              How to Approach the Text
+            </h4>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="text-accent font-bold">1.</div>
+                <div>
+                  <h5 className="font-bold mb-1 text-foreground">Start with Famous Hymns</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Begin with well-known hymns like the Nasadiya Sukta (10.129 - Creation Hymn) or the Purusha Sukta (10.90).
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="text-accent font-bold">2.</div>
+                <div>
+                  <h5 className="font-bold mb-1 text-foreground">Read Multiple Translations</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Compare different scholarly translations to understand varying interpretations and nuances.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="text-accent font-bold">3.</div>
+                <div>
+                  <h5 className="font-bold mb-1 text-foreground">Understand the Context</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Learn about Vedic rituals, society, and cosmology to better appreciate the hymns' meanings.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="text-accent font-bold">4.</div>
+                <div>
+                  <h5 className="font-bold mb-1 text-foreground">Look for Layers of Meaning</h5>
+                  <p className="text-sm text-muted-foreground">
+                    Vedic hymns often have multiple levels: literal (ritual), symbolic (psychological), and philosophical (metaphysical).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Curated Collections */}
+          <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl">
+            <h4 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
+              <ScrollText size={24} />
+              Curated Collections
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Link to="/explore">
+                <div className={cn(
+                  "bg-gradient-to-br from-accent/30 to-vedic-gold/20 p-6 rounded-lg",
+                  "border border-vedic-accent/20",
                   "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
-                  "transition-all duration-300"
-                )}
-              >
-                <div className="text-5xl mb-4">📖</div>
-                <h4 className="text-xl font-semibold mb-3 text-vedic-cream">Read</h4>
-                <p className="text-sm text-muted-foreground">Explore verses with translations and context</p>
-              </motion.div>
-            </Link>
-            <Link to="/discover">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className={cn(
-                  "rounded-xl p-8 text-center cursor-pointer",
-                  "bg-card border border-vedic-sage/20",
+                  "transition-all duration-300 cursor-pointer"
+                )}>
+                  <h5 className="font-bold text-lg mb-2 text-foreground">Essential Hymns</h5>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    10 foundational hymns every reader should know
+                  </p>
+                  <span className="text-accent font-semibold text-sm">Start Reading →</span>
+                </div>
+              </Link>
+              <Link to="/explore">
+                <div className={cn(
+                  "bg-gradient-to-br from-vedic-soma/30 to-vedic-ushas/20 p-6 rounded-lg",
+                  "border border-vedic-accent/20",
                   "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
-                  "transition-all duration-300"
-                )}
-              >
-                <div className="text-5xl mb-4">📊</div>
-                <h4 className="text-xl font-semibold mb-3 text-vedic-cream">Visualize</h4>
-                <p className="text-sm text-muted-foreground">Interactive visualizations and insights</p>
-              </motion.div>
-            </Link>
-            <Link to="/learn">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className={cn(
-                  "rounded-xl p-8 text-center cursor-pointer",
-                  "bg-card border border-vedic-sage/20",
-                  "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
-                  "transition-all duration-300"
-                )}
-              >
-                <div className="text-5xl mb-4">🎓</div>
-                <h4 className="text-xl font-semibold mb-3 text-vedic-cream">Learn</h4>
-                <p className="text-sm text-muted-foreground">Educational content and reading guides</p>
-              </motion.div>
-            </Link>
-            <Link to="/discover">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className={cn(
-                  "rounded-xl p-8 text-center cursor-pointer",
-                  "bg-card border border-vedic-sage/20",
-                  "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
-                  "transition-all duration-300"
-                )}
-              >
-                <div className="text-5xl mb-4">🔍</div>
-                <h4 className="text-xl font-semibold mb-3 text-vedic-cream">Discover</h4>
-                <p className="text-sm text-muted-foreground">Find connections and patterns</p>
-              </motion.div>
-            </Link>
+                  "transition-all duration-300 cursor-pointer"
+                )}>
+                  <h5 className="font-bold text-lg mb-2 text-foreground">Cosmic Hymns</h5>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Creation, cosmology, and philosophical wisdom
+                  </p>
+                  <span className="text-accent font-semibold text-sm">Explore →</span>
+                </div>
+              </Link>
+            </div>
           </div>
         </section>
       </div>

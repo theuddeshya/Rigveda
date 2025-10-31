@@ -75,17 +75,17 @@ const Discover = () => {
     <PageLayout>
       <div className="min-h-screen bg-gradient-to-b from-vedic-charcoal via-vedic-slate to-vedic-charcoal py-8 px-4">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-vedic-cream">Discover Insights</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-vedic-text">Discover Insights</h1>
 
           {/* Tab Navigation */}
-          <div className="flex flex-wrap gap-2 mb-8 border-b border-vedic-sage/20">
+          <div className="flex flex-wrap gap-2 mb-8 border-b border-vedic-accent/20">
             <button
               onClick={() => setActiveTab('analytics')}
               className={cn(
                 "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
                 activeTab === 'analytics'
                   ? 'border-b-2 border-accent text-accent'
-                  : 'text-muted-foreground hover:text-vedic-cream'
+                  : 'text-muted-foreground hover:text-vedic-text'
               )}
             >
               <BarChart2 size={20} />
@@ -97,7 +97,7 @@ const Discover = () => {
                 "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
                 activeTab === 'geography'
                   ? 'border-b-2 border-accent text-accent'
-                  : 'text-muted-foreground hover:text-vedic-cream'
+                  : 'text-muted-foreground hover:text-vedic-text'
               )}
             >
               <Globe size={20} />
@@ -109,7 +109,7 @@ const Discover = () => {
                 "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
                 activeTab === 'connections'
                   ? 'border-b-2 border-accent text-accent'
-                  : 'text-muted-foreground hover:text-vedic-cream'
+                  : 'text-muted-foreground hover:text-vedic-text'
               )}
             >
               <Network size={20} />
@@ -121,7 +121,7 @@ const Discover = () => {
                 "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
                 activeTab === 'timeline'
                   ? 'border-b-2 border-accent text-accent'
-                  : 'text-muted-foreground hover:text-vedic-cream'
+                  : 'text-muted-foreground hover:text-vedic-text'
               )}
             >
               <Clock size={20} />
@@ -130,7 +130,7 @@ const Discover = () => {
           </div>
 
           {loading ? (
-            <div className="text-center py-12 text-vedic-cream">
+            <div className="text-center py-12 text-vedic-text">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
               <p className="mt-4">Loading data...</p>
             </div>
@@ -141,8 +141,8 @@ const Discover = () => {
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Top Deities */}
-                    <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl">
-                      <h3 className="text-xl font-bold mb-4 text-vedic-cream">Top Deities</h3>
+                    <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl">
+                      <h3 className="text-xl font-bold mb-4 text-vedic-text">Top Deities</h3>
                       <div className="space-y-3">
                         {topDeities.map(([deity, count]) => {
                           const maxCount = topDeities[0][1];
@@ -153,7 +153,7 @@ const Discover = () => {
                                 <span className="font-semibold text-foreground">{deity}</span>
                                 <span className="text-sm text-muted-foreground">{count} verses</span>
                               </div>
-                              <div className="w-full bg-vedic-charcoal rounded-full h-2">
+                              <div className="w-full bg-vedic-ui rounded-full h-2">
                                 <div
                                   className="bg-accent h-2 rounded-full transition-all duration-300"
                                   style={{ width: `${percentage}%` }}
@@ -166,8 +166,8 @@ const Discover = () => {
                     </div>
 
                     {/* Top Themes */}
-                    <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl">
-                      <h3 className="text-xl font-bold mb-4 text-vedic-cream">Common Themes</h3>
+                    <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl">
+                      <h3 className="text-xl font-bold mb-4 text-vedic-text">Common Themes</h3>
                       <div className="flex flex-wrap gap-2">
                         {topThemes.map(([theme, count]) => (
                           <span
@@ -183,8 +183,8 @@ const Discover = () => {
                   </div>
 
                   {/* Top Meters */}
-                  <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl">
-                    <h3 className="text-xl font-bold mb-4 text-vedic-cream">Top Meters</h3>
+                  <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl">
+                    <h3 className="text-xl font-bold mb-4 text-vedic-text">Top Meters</h3>
                     <div className="space-y-3">
                       {topMeters.map(([meter, count]) => {
                         const maxCount = topMeters[0][1];
@@ -195,7 +195,7 @@ const Discover = () => {
                               <span className="font-semibold text-foreground">{meter}</span>
                               <span className="text-sm text-muted-foreground">{count} verses</span>
                             </div>
-                            <div className="w-full bg-vedic-charcoal rounded-full h-2">
+                            <div className="w-full bg-vedic-ui rounded-full h-2">
                               <div
                                 className="bg-accent h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${percentage}%` }}
@@ -211,13 +211,13 @@ const Discover = () => {
 
               {/* Geography Tab */}
               {activeTab === 'geography' && (
-                <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl text-vedic-cream">
+                <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl text-vedic-text">
                   <h3 className="text-xl font-bold mb-4">Geographic Explorer</h3>
                   <p className="mb-6">Explore the geographical references within the Rig Veda.</p>
                   <div className="space-y-4">
                     {regionsData.length > 0 ? (
                       regionsData.map((region, index) => (
-                        <div key={index} className="border-b border-vedic-sage/20 pb-4 last:border-b-0">
+                        <div key={index} className="border-b border-vedic-accent/20 pb-4 last:border-b-0">
                           <h4 className="text-lg font-semibold text-accent">{region.name} ({region.name_sanskrit})</h4>
                           <p className="text-sm text-muted-foreground">Modern Location: {region.modern_location}</p>
                           <p className="text-sm text-muted-foreground">Significance: {region.significance}</p>
@@ -238,13 +238,13 @@ const Discover = () => {
 
               {/* Connections Tab */}
               {activeTab === 'connections' && (
-                <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl text-vedic-cream">
+                <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl text-vedic-text">
                   <h3 className="text-xl font-bold mb-4">Deity Network Graph</h3>
                   <p className="mb-6">Explore the intricate relationships and connections between different deities.</p>
                   <div className="space-y-4">
                     {deitiesData.length > 0 ? (
                       deitiesData.map((deity, index) => (
-                        <div key={index} className="border-b border-vedic-sage/20 pb-4 last:border-b-0">
+                        <div key={index} className="border-b border-vedic-accent/20 pb-4 last:border-b-0">
                           <h4 className="text-lg font-semibold text-accent">{deity.name} ({deity.name_sanskrit})</h4>
                           <p className="text-sm text-muted-foreground">Role: {deity.role}</p>
                           {deity.related_deities && deity.related_deities.length > 0 && (
@@ -264,7 +264,7 @@ const Discover = () => {
 
               {/* Timeline Tab */}
               {activeTab === 'timeline' && (
-                <div className="bg-card border border-vedic-sage/20 rounded-xl p-6 shadow-xl text-vedic-cream">
+                <div className="bg-card border border-vedic-accent/20 rounded-xl p-6 shadow-xl text-vedic-text">
                   <h3 className="text-xl font-bold mb-4">Timeline Journey (Coming Soon)</h3>
                   <p>Journey through the chronological development and evolution of Vedic thought.</p>
                 </div>

@@ -6,13 +6,13 @@ import { cn } from '../lib/utils';
 const Learn = () => {
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gradient-to-b from-vedic-charcoal via-vedic-slate to-vedic-charcoal py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-b from-vedic-ui via-vedic-bg to-vedic-ui py-8 px-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-vedic-cream">Learn About the Rig Veda</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-vedic-text">Learn About the Rig Veda</h1>
 
           {/* Introduction */}
-          <section className="bg-card border border-vedic-sage/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-vedic-cream">What is the Rig Veda?</h2>
+          <section className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-vedic-text">What is the Rig Veda?</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 The Rig Veda is the oldest of the four Vedas and one of the oldest sacred texts in the world. Composed in Vedic Sanskrit between approximately 1500-1200 BCE, it consists of 1,028 hymns (suktas) arranged in 10 books (mandalas) containing 10,552 verses.
@@ -24,32 +24,32 @@ const Learn = () => {
           </section>
 
           {/* Structure */}
-          <section className="bg-card border border-vedic-sage/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
               <Book size={24} />
               Structure & Organization
             </h2>
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-vedic-charcoal/50 border border-vedic-sage/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
                   <h3 className="font-bold mb-2 text-foreground">10 Mandalas (Books)</h3>
                   <p className="text-sm text-muted-foreground">
                     Books 2-7 are the oldest (Family Books), each attributed to a specific rishi family. Books 1, 8, 9, and 10 were compiled later.
                   </p>
                 </div>
-                <div className="bg-vedic-charcoal/50 border border-vedic-sage/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
                   <h3 className="font-bold mb-2 text-foreground">1,028 Hymns (Suktas)</h3>
                   <p className="text-sm text-muted-foreground">
                     Each hymn is dedicated to a specific deity or concept, composed by ancient seers (rishis).
                   </p>
                 </div>
-                <div className="bg-vedic-charcoal/50 border border-vedic-sage/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
                   <h3 className="font-bold mb-2 text-foreground">10,552 Verses</h3>
                   <p className="text-sm text-muted-foreground">
                     Composed in various poetic meters, primarily Gayatri, Trishtubh, and Jagati.
                   </p>
                 </div>
-                <div className="bg-vedic-charcoal/50 border border-vedic-sage/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
+                <div className="bg-vedic-ui/50 border border-vedic-accent/20 p-4 rounded-lg hover:border-accent transition-all duration-200">
                   <h3 className="font-bold mb-2 text-foreground">Multiple Deities</h3>
                   <p className="text-sm text-muted-foreground">
                     Major deities include Agni (fire), Indra (warrior god), Soma (sacred plant), and Ushas (dawn).
@@ -60,8 +60,8 @@ const Learn = () => {
           </section>
 
           {/* Key Deities */}
-          <section className="bg-card border border-vedic-sage/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
               <Users size={24} />
               Principal Deities
             </h2>
@@ -94,8 +94,8 @@ const Learn = () => {
           </section>
 
           {/* Reading Guide */}
-          <section className="bg-card border border-vedic-sage/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
-            <h2 className="text-2xl font-bold mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl mb-8">
+            <h2 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
               <Compass size={24} />
               How to Approach the Text
             </h2>
@@ -140,8 +140,8 @@ const Learn = () => {
           </section>
 
           {/* Curated Collections */}
-          <section className="bg-card border border-vedic-sage/20 rounded-xl p-6 md:p-8 shadow-xl">
-            <h2 className="text-2xl font-bold mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="bg-card border border-vedic-accent/20 rounded-xl p-6 md:p-8 shadow-xl">
+            <h2 className="text-2xl font-bold mb-4 text-vedic-text flex items-center gap-2">
               <ScrollText size={24} />
               Curated Collections
             </h2>
@@ -149,7 +149,7 @@ const Learn = () => {
               <Link to="/explore">
                 <div className={cn(
                   "bg-gradient-to-br from-accent/30 to-vedic-gold/20 p-6 rounded-lg",
-                  "border border-vedic-sage/20",
+                  "border border-vedic-accent/20",
                   "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
                   "transition-all duration-300 cursor-pointer"
                 )}>
@@ -163,7 +163,7 @@ const Learn = () => {
               <Link to="/explore">
                 <div className={cn(
                   "bg-gradient-to-br from-vedic-soma/30 to-vedic-ushas/20 p-6 rounded-lg",
-                  "border border-vedic-sage/20",
+                  "border border-vedic-accent/20",
                   "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
                   "transition-all duration-300 cursor-pointer"
                 )}>

@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PageLayout from '../components/layout/PageLayout';
 import VerseCard from '../components/verses/VerseCard';
 import FilterPanel from '../components/filters/FilterPanel';
+import KeyboardShortcutsDialog from '../components/ui/KeyboardShortcutsDialog';
 import { useVerses } from '../hooks/useVerses';
 import { useSearch } from '../hooks/useSearch';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
+import { useUIStore } from '../store/uiStore';
 import type { VerseData } from '../store/verseStore';
 import { XCircle } from 'lucide-react';
 
@@ -21,6 +24,10 @@ const Explore = () => {
   const { verses, loading, error } = useVerses();
   const [currentFilters, setCurrentFilters] = useState<Filters>({});
   const { results, setQuery, history, clearHistory } = useSearch(verses);
+  const { sidebarOpen, setSidebarOpen, filtersOpen, setFiltersOpen } = useUIStore();
+  const [focusedVerseIndex, setFocusedVerseIndex] = useState(0);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const verseRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   // Handle search query changes
   useEffect(() => {
@@ -46,21 +53,97 @@ const Explore = () => {
     setCurrentFilters(prev => ({ ...prev, search: searchItem }));
   };
 
+  // Keyboard navigation for verses
+  const navigateToVerse = (direction: 'next' | 'prev') => {
+    if (filteredVerses.length === 0) return;
+
+    let newIndex = focusedVerseIndex;
+    if (direction === 'next') {
+      newIndex = (focusedVerseIndex + 1) % filteredVerses.length;
+    } else {
+      newIndex = focusedVerseIndex === 0 ? filteredVerses.length - 1 : focusedVerseIndex - 1;
+    }
+
+    setFocusedVerseIndex(newIndex);
+    verseRefs.current[newIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    verseRefs.current[newIndex]?.focus();
+  };
+
+  // Global keyboard shortcuts
+  useKeyboardShortcuts([
+    {
+      key: '?',
+      shiftKey: true,
+      description: 'Show keyboard shortcuts',
+      handler: () => setShowShortcuts(true),
+    },
+    {
+      key: 's',
+      ctrlKey: true,
+      description: 'Toggle sidebar',
+      handler: () => setSidebarOpen(!sidebarOpen),
+    },
+    {
+      key: 'f',
+      ctrlKey: true,
+      description: 'Toggle filters',
+      handler: () => setFiltersOpen(!filtersOpen),
+    },
+    {
+      key: '/',
+      description: 'Focus search',
+      handler: () => {
+        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        searchInput?.focus();
+      },
+    },
+    {
+      key: 'c',
+      altKey: true,
+      description: 'Clear all filters',
+      handler: () => setCurrentFilters({}),
+    },
+    {
+      key: 'Escape',
+      description: 'Close panels',
+      handler: () => {
+        if (showShortcuts) {
+          setShowShortcuts(false);
+        } else if (filtersOpen) {
+          setFiltersOpen(false);
+        } else if (sidebarOpen) {
+          setSidebarOpen(false);
+        }
+      },
+    },
+    {
+      key: 'j',
+      description: 'Next verse',
+      handler: () => navigateToVerse('next'),
+    },
+    {
+      key: 'k',
+      description: 'Previous verse',
+      handler: () => navigateToVerse('prev'),
+    },
+  ]);
+
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gradient-to-b from-vedic-charcoal via-vedic-slate to-vedic-charcoal py-8 px-4">
+      <KeyboardShortcutsDialog isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+      <div className="min-h-screen bg-gradient-to-b from-vedic-ui via-vedic-bg to-vedic-ui py-8 px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-reading mb-6 md:mb-8 font-bold text-vedic-cream">Explore the Verses</h1>
+          <h1 className="text-3xl md:text-4xl font-reading mb-6 md:mb-8 font-bold text-vedic-text">Explore the Verses</h1>
           <FilterPanel allVerses={verses} currentFilters={currentFilters} onFilterChange={setCurrentFilters} />
 
           {/* Search History */}
           {history.length > 0 && (
             <div className="mb-6">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-vedic-cream">Recent Searches</h3>
+                <h3 className="text-lg font-semibold text-vedic-text">Recent Searches</h3>
                 <button
                   onClick={clearHistory}
-                  className="text-sm text-muted-foreground hover:text-vedic-cream flex items-center gap-1"
+                  className="text-sm text-muted-foreground hover:text-vedic-text flex items-center gap-1"
                 >
                   <XCircle size={16} /> Clear History
                 </button>
@@ -70,7 +153,7 @@ const Explore = () => {
                   <button
                     key={index}
                     onClick={() => handleSearchHistoryClick(item)}
-                    className="px-4 py-2 rounded-full bg-vedic-charcoal/50 text-vedic-sage text-sm hover:bg-vedic-sage/20 transition-colors"
+                    className="px-4 py-2 rounded-full bg-vedic-ui/50 text-vedic-sage text-sm hover:bg-vedic-sage/20 transition-colors"
                   >
                     {item}
                   </button>
@@ -80,7 +163,7 @@ const Explore = () => {
           )}
 
           {loading && (
-            <div className="text-center text-xl py-8 text-vedic-cream">
+            <div className="text-center text-xl py-8 text-vedic-text">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent"></div>
               <p className="mt-4">Loading verses...</p>
             </div>
@@ -99,16 +182,22 @@ const Explore = () => {
               </div>
               <div className="space-y-6">
                 {filteredVerses.length > 0 ? (
-                  filteredVerses.map((verse: VerseData) => (
-                    <VerseCard
+                  filteredVerses.map((verse: VerseData, index: number) => (
+                    <div
                       key={verse.id}
-                      verse={verse}
-                      viewMode="full"
-                      showContext
-                      showTranslation
-                      enableAudio={false}
-                      enableBookmark
-                    />
+                      ref={(el) => { verseRefs.current[index] = el }}
+                      tabIndex={0}
+                      onFocus={() => setFocusedVerseIndex(index)}
+                    >
+                      <VerseCard
+                        verse={verse}
+                        viewMode="full"
+                        showContext
+                        showTranslation
+                        enableAudio={false}
+                        enableBookmark
+                      />
+                    </div>
                   ))
                 ) : (
                   <div className="text-center py-12">

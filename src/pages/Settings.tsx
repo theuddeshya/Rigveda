@@ -1,6 +1,6 @@
 import PageLayout from '../components/layout/PageLayout';
 import { useUserStore } from '../store/userStore';
-import type { ScriptOption, ThemeOption, TranslationOption } from '../store/userStore';
+import type { ScriptOption, TranslationOption } from '../store/userStore';
 import { Settings as SettingsIcon, Volume2, Monitor } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -9,16 +9,16 @@ const Settings = () => {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gradient-to-b from-vedic-charcoal via-vedic-slate to-vedic-charcoal py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-b from-vedic-ui via-vedic-bg to-vedic-ui py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-vedic-cream flex items-center gap-3">
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-vedic-text flex items-center gap-3">
             <SettingsIcon size={32} />
             Settings
           </h1>
 
           {/* Reading Preferences */}
-          <section className="mb-6 p-6 bg-card border border-vedic-sage/20 rounded-xl shadow-xl">
-            <h2 className="font-bold text-xl mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="mb-6 p-6 bg-card border border-vedic-accent/20 rounded-xl shadow-xl">
+            <h2 className="font-bold text-xl mb-4 text-vedic-text flex items-center gap-2">
               <SettingsIcon size={20} />
               Reading Preferences
             </h2>
@@ -30,7 +30,7 @@ const Settings = () => {
                   onChange={e => prefs.setPref('defaultScript', e.target.value as ScriptOption)}
                   className={cn(
                     "px-3 py-2 rounded-lg min-h-[44px]",
-                    "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
+                    "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
                     "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
                     "transition-all duration-200"
                   )}
@@ -47,7 +47,7 @@ const Settings = () => {
                   onChange={e => prefs.setPref('translation', e.target.value as TranslationOption)}
                   className={cn(
                     "px-3 py-2 rounded-lg min-h-[44px]",
-                    "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
+                    "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
                     "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
                     "transition-all duration-200"
                   )}
@@ -88,7 +88,7 @@ const Settings = () => {
                   onChange={e => prefs.setPref('readingMode', e.target.value as 'scroll' | 'card' | 'parallel')}
                   className={cn(
                     "px-3 py-2 rounded-lg min-h-[44px]",
-                    "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
+                    "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
                     "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
                     "transition-all duration-200"
                   )}
@@ -102,29 +102,12 @@ const Settings = () => {
           </section>
 
           {/* Display Preferences */}
-          <section className="mb-6 p-6 bg-card border border-vedic-sage/20 rounded-xl shadow-xl">
-            <h2 className="font-bold text-xl mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="mb-6 p-6 bg-card border border-vedic-accent/20 rounded-xl shadow-xl">
+            <h2 className="font-bold text-xl mb-4 text-vedic-text flex items-center gap-2">
               <Monitor size={20} />
               Display Preferences
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label className="flex flex-col">
-                <span className="mb-2 font-semibold text-sm text-foreground">Theme</span>
-                <select
-                  value={prefs.theme}
-                  onChange={e => prefs.setPref('theme', e.target.value as ThemeOption)}
-                  className={cn(
-                    "px-3 py-2 rounded-lg min-h-[44px]",
-                    "bg-vedic-charcoal/30 text-foreground border border-vedic-sage/20",
-                    "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
-                    "transition-all duration-200"
-                  )}
-                >
-                  <option value="auto">Auto</option>
-                  <option value="light">Light</option>
-                  <option value="dark">Dark</option>
-                </select>
-              </label>
               <label className="flex flex-row items-center gap-2">
                 <input
                   type="checkbox"
@@ -150,8 +133,8 @@ const Settings = () => {
           </section>
 
           {/* Audio Preferences */}
-          <section className="mb-6 p-6 bg-card border border-vedic-sage/20 rounded-xl shadow-xl">
-            <h2 className="font-bold text-xl mb-4 text-vedic-cream flex items-center gap-2">
+          <section className="mb-6 p-6 bg-card border border-vedic-accent/20 rounded-xl shadow-xl">
+            <h2 className="font-bold text-xl mb-4 text-vedic-text flex items-center gap-2">
               <Volume2 size={20} />
               Audio Preferences
             </h2>
@@ -192,7 +175,7 @@ const Settings = () => {
             </div>
           </section>
 
-          <div className="text-sm text-muted-foreground p-4 bg-vedic-charcoal/50 border border-vedic-sage/20 rounded-lg text-center">
+          <div className="text-sm text-muted-foreground p-4 bg-vedic-ui/50 border border-vedic-accent/20 rounded-lg text-center">
             ℹ️ Preferences are stored only on your device. No data is sent or stored externally.
           </div>
         </div>

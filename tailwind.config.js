@@ -8,20 +8,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // New ColorHunt Earthy Palette
+        // Use CSS variables so theme switching via the `.dark` class works at runtime.
+        // The actual values live in `src/styles/tokens.css` (light defaults + .dark overrides).
         vedic: {
-          charcoal: '#181C14',    // Primary dark background
-          slate: '#3C3D37',        // Secondary containers/cards
-          sage: '#697565',         // Accent highlights/borders
-          cream: '#ECDFCC',        // Light text/backgrounds
-          // Keep old colors for gradual transition
-          night: '#2D3142',
-          agni: '#FF6B35',
-          ushas: '#FFD93D',
-          soma: '#E8F1F5',
-          gold: '#D4AF37',
-          earth: '#8B7355',
-          sky: '#4A90E2',
+          // Use rgb(...) with the RGB CSS variables so Tailwind's opacity modifiers
+          // (e.g. `bg-vedic-ui/95`) produce valid CSS: `rgb(var(--...-rgb) / <alpha>)`.
+          bg: 'rgb(var(--color-vedic-bg-rgb) / <alpha-value>)',
+          text: 'rgb(var(--color-vedic-text-rgb) / <alpha-value>)',
+          ui: 'rgb(var(--color-vedic-ui-rgb) / <alpha-value>)',
+          accent: 'rgb(var(--color-vedic-accent-rgb) / <alpha-value>)',
         },
         // shadcn/ui compatible tokens
         border: 'hsl(var(--border))',

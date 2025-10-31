@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { cn } from '../../lib/utils';
 
@@ -56,9 +56,38 @@ const VerseCard = ({
   const [selectedTranslations, setSelectedTranslations] = useState<string[]>(
     verse.text.translations.length > 0 ? [verse.text.translations[0].translator] : []
   );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const allTranslators = verse.text.translations.map(t => t.translator);
   const { isBookmarked, toggleBookmark } = useBookmarks();
+
+  const audioFilePath = `/assets/audio/${verse.mandala}-${verse.sukta}-${verse.verse}.mp3`;
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.onended = () => setIsPlaying(false);
+      audioRef.current.onerror = () => {
+        console.error(`Error loading audio for ${audioFilePath}`);
+        setIsPlaying(false);
+      };
+    }
+  }, [audioFilePath]);
+
+  const handleAudioToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(error => {
+          console.error("Error playing audio:", error);
+          setIsPlaying(false);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   const handleTranslationToggle = (translator: string) => {
     setSelectedTranslations(prev =>
@@ -80,7 +109,7 @@ const VerseCard = ({
       onKeyDown={e => e.key === 'Enter' && onVerseClick?.(verse.id)}
       className={cn(
         "group relative mb-6 md:mb-8 overflow-hidden cursor-pointer",
-        "bg-card text-card-foreground rounded-xl border border-vedic-sage/20",
+        "bg-card text-card-foreground rounded-xl border border-vedic-accent/20",
         "transition-all duration-300 ease-out",
         "hover:border-accent hover:shadow-xl hover:shadow-accent/10",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -94,8 +123,8 @@ const VerseCard = ({
       {/* Header: Mandala, Sukta, Verse, Bookmark, Audio */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-vedic-charcoal/50 border border-vedic-sage/20">
-            <span className="text-vedic-cream font-semibold text-sm md:text-base font-ui">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-vedic-ui/50 border border-vedic-accent/20">
+            <span className="text-vedic-text font-semibold text-sm md:text-base font-ui">
               {verse.mandala}.{verse.sukta}.{verse.verse}
             </span>
           </div>
@@ -123,17 +152,20 @@ const VerseCard = ({
           )}
           {enableAudio && (
             <button
-              aria-label="Play audio"
+              aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
               className={cn(
                 "min-w-[44px] min-h-[44px] flex items-center justify-center",
                 "rounded-lg transition-all duration-200",
-                "text-muted-foreground hover:text-vedic-cream hover:bg-vedic-sage/20",
-                "hover:scale-110"
+                "text-muted-foreground hover:text-vedic-text hover:bg-vedic-sage/20",
+                "hover:scale-110",
+                isPlaying && "text-accent"
               )}
+              onClick={handleAudioToggle}
             >
-              <span className="text-xl">🔊</span>
+              <span className="text-xl">{isPlaying ? '⏸️' : '🔊'}</span>
             </button>
           )}
+          {enableAudio && <audio ref={audioRef} src={audioFilePath} preload="none" />}
         </div>
       </div>
 
@@ -142,10 +174,10 @@ const VerseCard = ({
         <button
           className={cn(
             "px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200",
-            "border border-vedic-sage/20",
+            "border border-vedic-accent/20",
             tab === 'sanskrit'
               ? 'bg-accent text-accent-foreground shadow-md'
-              : 'bg-vedic-charcoal/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
+              : 'bg-vedic-ui/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
             "font-sanskrit"
           )}
           onClick={e => { e.stopPropagation(); setTab('sanskrit'); }}
@@ -155,10 +187,10 @@ const VerseCard = ({
         <button
           className={cn(
             "px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200",
-            "border border-vedic-sage/20",
+            "border border-vedic-accent/20",
             tab === 'iast'
               ? 'bg-accent text-accent-foreground shadow-md'
-              : 'bg-vedic-charcoal/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
+              : 'bg-vedic-ui/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
             "font-transliteration"
           )}
           onClick={e => { e.stopPropagation(); setTab('iast'); }}
@@ -169,11 +201,11 @@ const VerseCard = ({
           <button
             className={cn(
               "px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200",
-              "border border-vedic-sage/20",
+              "border border-vedic-accent/20",
               tab === 'translation'
                 ? 'bg-accent text-accent-foreground shadow-md'
-                : 'bg-vedic-charcoal/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
-              "font-reading"
+                : 'bg-vedic-ui/30 text-muted-foreground hover:bg-vedic-sage/20 hover:text-foreground',
+            "font-reading"
             )}
             onClick={e => { e.stopPropagation(); setTab('translation'); }}
           >
@@ -206,7 +238,7 @@ const VerseCard = ({
                       "px-3 py-1.5 rounded-lg text-xs font-medium transition-colors",
                       selectedTranslations.includes(tr)
                         ? "bg-accent text-accent-foreground"
-                        : "bg-vedic-charcoal/30 text-muted-foreground hover:bg-vedic-sage/20"
+                        : "bg-vedic-ui/30 text-muted-foreground hover:bg-vedic-sage/20"
                     )}
                     onClick={e => { e.stopPropagation(); handleTranslationToggle(tr); }}
                   >
@@ -216,8 +248,8 @@ const VerseCard = ({
               </div>
             </div>
             {getSelectedTranslationObjects().map((t, index) => (
-              <div key={t.translator} className={cn("mb-4", index > 0 && "mt-4 pt-4 border-t border-vedic-sage/20")}>
-                <p className="text-sm font-semibold text-vedic-cream mb-2">{t.translator} ({t.language})</p>
+              <div key={t.translator} className={cn("mb-4", index > 0 && "mt-4 pt-4 border-t border-vedic-accent/20")}>
+                <p className="text-sm font-semibold text-vedic-text mb-2">{t.translator} ({t.language})</p>
                 <p className="text-lg leading-relaxed text-foreground">{t.text}</p>
               </div>
             ))}
@@ -230,8 +262,8 @@ const VerseCard = ({
 
       {/* Metadata and Context */}
       {viewMode === 'full' && (
-        <div className="mt-6 pt-6 border-t border-vedic-sage/20">
-          <h3 className="text-lg font-bold mb-4 text-vedic-cream">Verse Details</h3>
+        <div className="mt-6 pt-6 border-t border-vedic-accent/20">
+          <h3 className="text-lg font-bold mb-4 text-vedic-text">Verse Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <p><span className="font-semibold text-vedic-sage">Deity:</span> {verse.metadata.deity.primary}</p>
@@ -244,7 +276,7 @@ const VerseCard = ({
             </div>
           </div>
           {showContext && verse.context && (
-            <div className="mt-4 p-4 bg-vedic-charcoal/50 border border-vedic-sage/20 rounded-lg">
+            <div className="mt-4 p-4 bg-vedic-ui/50 border border-vedic-accent/20 rounded-lg">
               <h4 className="font-semibold text-vedic-sage mb-2">Contextual Notes:</h4>
               {verse.context.significance && <p className="text-sm mb-1">{verse.context.significance}</p>}
               {verse.context.note && <p className="text-sm italic text-muted-foreground">{verse.context.note}</p>}
