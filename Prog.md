@@ -17,846 +17,825 @@ Fonts: Google Fonts CDN
 
 ```
 
-### Folder Structure  ✔️ completed
+---
 
-```
-rigveda-explorer/
-├── public/
-│   ├── data/
-│   │   ├── verses.json (complete dataset)
-│   │   ├── deities.json (deity metadata & relationships)
-│   │   ├── rishis.json (sage information)
-│   │   └── regions.json (geographic data)
-│   └── assets/
-│       ├── images/
-│       └── audio/ (optional mantra pronunciations)
-├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Navbar.jsx (sticky, minimal)
-│   │   │   ├── Footer.jsx
-│   │   │   └── PageLayout.jsx
-│   │   ├── verses/
-│   │   │   ├── VerseCard.jsx (main display component)
-│   │   │   ├── VerseReader.jsx (reading view)
-│   │   │   ├── ParallelView.jsx (compare translations)
-│   │   │   └── VerseBookmark.jsx
-│   │   ├── filters/
-│   │   │   ├── FilterPanel.jsx
-│   │   │   ├── QuickFilters.jsx
-│   │   │   └── AdvancedSearch.jsx
-│   │   ├── visualizations/
-│   │   │   ├── DeityNetwork.jsx (force-directed graph)
-│   │   │   ├── ThemeExplorer.jsx (interactive theme map)
-│   │   │   ├── GeographicMap.jsx (Vedic regions)
-│   │   │   ├── TimelineView.jsx (chronological journey)
-│   │   │   └── StatsDashboard.jsx
-│   │   ├── ai/
-│   │   │   ├── AIAssistant.jsx (chat interface)
-│   │   │   └── SemanticSearch.jsx
-│   │   ├── reading/
-│   │   │   ├── ReadingPlan.jsx
-│   │   │   ├── DailyVerse.jsx
-│   │   │   └── ReadingProgress.jsx
-│   │   └── common/
-│   │       ├── LoadingSpinner.jsx
-│   │       ├── ErrorBoundary.jsx
-│   │       └── Modal.jsx
-│   ├── pages/
-│   │   ├── Home.jsx
-│   │   ├── Explore.jsx (main reading interface)
-│   │   ├── Discover.jsx (visualizations & insights)
-│   │   ├── Learn.jsx (introductory content)
-│   │   ├── About.jsx
-│   │   └── Settings.jsx
-│   ├── hooks/
-│   │   ├── useVerses.js (fetch & filter verses)
-│   │   ├── useBookmarks.js (localStorage management)
-│   │   ├── useSearch.js (fuzzy search logic)
-│   │   └── useAI.js (Claude API integration)
-│   ├── store/
-│   │   ├── verseStore.js (Zustand store)
-│   │   ├── uiStore.js (UI state)
-│   │   └── userStore.js (preferences, bookmarks)
-│   ├── utils/
-│   │   ├── verseLoader.js
-│   │   ├── searchEngine.js
-│   │   ├── transliteration.js (Devanagari ↔ IAST)
-│   │   └── analytics.js
-│   ├── styles/
-│   │   └── globals.css
-│   ├── App.jsx
-│   └── main.jsx
+# 🔄 REFACTOR PLAN - Rigveda Explorer
 
-```
+**Date Created:** 2025-11-02
+**Branch:** Refactor
+**Status:** In Progress
 
 ---
 
-## 📊 Data Model (Comprehensive)
+## 📊 Current State Assessment
 
-### verses.json  ✔️ completed
+### ✅ Completed Features
+- [x] Basic routing (Home, Explore, Discover, Settings)
+- [x] Navbar with theme toggle and navigation
+- [x] Footer with dark theme
+- [x] Sidebar with Mandala/Sukta/Verse navigation
+- [x] VerseCard component with translations
+- [x] Filter panel for verses (deity, meter, rishi)
+- [x] Bookmark functionality
+- [x] Theme switching (light/dark)
+- [x] Keyboard navigation throughout app
+- [x] Learn page content integrated into Home page
+- [x] Per-Mandala JSON loading (lazy loading optimization)
+- [x] Tailwind color system with vedic palette
 
-```json
-{
-  "verses": [
-    {
-      "id": "1.1.1",
-      "mandala": 1,
-      "sukta": 1,
-      "verse": 1,
+### ⚠️ Technical Debt Identified
+1. **Color System Inconsistency**
+   - Mixed usage of CSS variables and Tailwind classes
+   - Some components use hardcoded hex colors (#181C14, #ECDFCC)
+   - Need unified color token system
 
-      "text": {
-        "sanskrit": "अग्निमीळे पुरोहितं यज्ञस्य देवमृत्विजम् । होतारं रत्नधातमम् ॥",
-        "iast": "agním īḷe puróhitaṃ yajñásya devám ṛtvíjam | hótāraṃ ratnadhā́tamam ||",
-        "translations": [
-          {
-            "language": "en",
-            "translator": "Griffith",
-            "text": "I Laud Agni, the chosen Priest, God, minister of sacrifice, The hotar, lavishest of wealth.",
-            "year": 1896
-          },
-          {
-            "language": "en",
-            "translator": "Jamison-Brereton",
-            "text": "I summon Agni, the priest placed in front, the god of the ritual, the invoker, best bestower of treasure.",
-            "year": 2014
-          },
-          {
-            "language": "en",
-            "translator": "Wilson",
-            "text": "I glorify Agni, the high priest of the sacrifice, the divine, the ministrant, who presents the oblation, and is the possessor of great wealth.",
-            "year": 1850
-          }
-        ]
-      },
+2. **Component Architecture**
+   - Large components (Home.tsx, Explore.tsx) need splitting
+   - Repeated code in filter components
+   - Some props drilling issues
 
-      "metadata": {
-        "deity": {
-          "primary": "Agni",
-          "secondary": null
-        },
-        "rishi": {
-          "name": "Madhuchchhandas Vaishvamitra",
-          "gotra": "Vaishvamitra",
-          "family": "Angiras"
-        },
-        "meter": "Gayatri",
-        "category": "devata" // or daiva, aranya
-      },
+3. **Data Loading**
+   - No loading states in some components
+   - Error handling inconsistent
+   - Cache strategy could be improved
 
-      "themes": [
-        "fire",
-        "sacrifice",
-        "ritual",
-        "priest",
-        "wealth",
-        "invocation"
-      ],
+4. **Type Safety**
+   - Some `any` types still present
+   - Missing interfaces for some data structures
+   - Zustand stores need better typing
 
-      "keywords": {
-        "sanskrit": ["अग्नि", "पुरोहित", "यज्ञ", "देव", "होतृ"],
-        "english": ["agni", "priest", "sacrifice", "god", "wealth"]
-      },
+5. **Performance**
+   - Large verse lists not virtualized
+   - Some unnecessary re-renders
+   - Image/asset optimization needed
 
-      "context": {
-        "significance": "Opening verse of the entire Rig Veda Samhita",
-        "ritual_use": "Invoked at the beginning of fire sacrifices",
-        "symbolic_meaning": "Agni as the divine mediator between humans and gods",
-        "note": "This hymn establishes Agni's preeminent position in Vedic ritual"
-      },
+6. **Accessibility**
+   - Missing ARIA labels in some places
+   - Focus management could be better
+   - Color contrast ratios need verification
 
-      "connections": {
-        "related_verses": ["1.1.2", "1.1.3", "2.1.1", "3.1.1"],
-        "parallel_hymns": ["10.9.1"],
-        "referenced_in": ["Shukla Yajurveda 1.1"]
-      },
+7. **Testing**
+   - Limited test coverage
+   - Some tests have memory issues
+   - E2E tests missing
 
-      "geography": {
-        "region": "Sapta Sindhu",
-        "modern_location": "Punjab and surrounding regions",
-        "coordinates": {
-          "lat": 31.1471,
-          "lng": 75.3412
-        }
-      },
+---
 
-      "chronology": {
-        "layer": "early", // early/middle/late
-        "approx_period": "1500-1200 BCE",
-        "relative_date": -1500
-      },
+## 🎯 Refactor Goals
 
-      "audio": {
-        "pronunciation_url": "/audio/1.1.1.mp3",
-        "recitation_style": "Samhita Patha"
-      },
+### Primary Objectives
+1. **Improve Code Quality & Maintainability**
+   - Consistent coding patterns
+   - Better component composition
+   - Enhanced type safety
+   - Comprehensive testing
 
-      "analysis": {
-        "word_count": 9,
-        "complexity": "medium",
-        "poetic_devices": ["alliteration", "compound words"],
-        "grammatical_notes": "Accusative case for Agni as object of verb īḷe"
-      }
-    }
-  ]
+2. **Enhance Performance**
+   - Optimize rendering
+   - Better data fetching strategies
+   - Reduce bundle size
+   - Implement proper caching
+
+3. **Strengthen User Experience**
+   - Smoother animations
+   - Better loading states
+   - Enhanced accessibility
+   - Mobile optimization
+
+4. **Prepare for Advanced Features**
+   - Clean foundation for AI integration
+   - Scalable visualization architecture
+   - Extensible data model
+
+---
+
+## 📋 Phase 1: Foundation Cleanup (Priority: HIGH)
+
+### 1.1 Color System Unification
+**Goal:** Single source of truth for colors
+
+**Tasks:**
+- [ ] Create comprehensive color token documentation
+- [ ] Update all components to use Tailwind classes consistently
+- [ ] Remove hardcoded hex values from components
+- [ ] Add semantic color tokens (success, warning, error, info)
+- [ ] Verify WCAG AA contrast ratios for all color combinations
+- [ ] Create color palette showcase page in Storybook (future)
+
+**Files to Update:**
+- `src/styles/tokens.css`
+- `tailwind.config.js`
+- `src/components/layout/Navbar.tsx`
+- `src/components/layout/Footer.tsx`
+- `src/pages/Home.tsx`
+
+**Estimated Time:** 4 hours
+
+---
+
+### 1.2 Component Refactoring
+**Goal:** Smaller, composable, reusable components
+
+**Home Page Breakdown:**
+```
+src/pages/Home.tsx (CURRENT: 270 lines)
+↓ SPLIT INTO ↓
+src/pages/Home.tsx (main layout, 50 lines)
+src/components/home/
+  ├── HeroSection.tsx (Devanagari title, CTA button)
+  ├── FeaturedVerse.tsx (Daily verse display)
+  └── LearnSection.tsx
+      ├── IntroductionCard.tsx
+      ├── StructureCard.tsx
+      ├── DeitiesCard.tsx
+      ├── ReadingGuideCard.tsx
+      └── CuratedCollectionsCard.tsx
+```
+
+**Explore Page Breakdown:**
+```
+src/pages/Explore.tsx (CURRENT: 400+ lines)
+↓ SPLIT INTO ↓
+src/pages/Explore.tsx (main layout, 80 lines)
+src/components/explore/
+  ├── ExploreHeader.tsx (title, view mode toggle)
+  ├── VerseList.tsx (virtualized list)
+  ├── VerseFilters.tsx (wrapper)
+  │   ├── FilterDrawer.tsx
+  │   ├── QuickFilters.tsx
+  │   └── FilterChips.tsx
+  └── VerseDetail.tsx (modal/panel)
+```
+
+**Shared Components to Create:**
+```
+src/components/ui/
+  ├── Card.tsx (base card component)
+  ├── Button.tsx (variants: primary, secondary, ghost)
+  ├── Badge.tsx (for tags, chips)
+  ├── Skeleton.tsx (loading states)
+  ├── EmptyState.tsx (no results, errors)
+  ├── Tooltip.tsx (info tooltips)
+  └── Dialog.tsx (modal wrapper)
+```
+
+**Tasks:**
+- [ ] Create base UI components
+- [ ] Split Home page into smaller components
+- [ ] Split Explore page into smaller components
+- [ ] Extract repeated patterns into custom hooks
+- [ ] Add prop validation and TypeScript interfaces
+- [ ] Write component documentation
+
+**Estimated Time:** 12 hours
+
+---
+
+### 1.3 TypeScript Improvements
+**Goal:** Full type safety across the project
+
+**Tasks:**
+- [ ] Remove all `any` types
+- [ ] Create comprehensive interfaces in `src/types/`
+  - `verse.types.ts`
+  - `deity.types.ts`
+  - `filter.types.ts`
+  - `ui.types.ts`
+- [ ] Add strict mode to tsconfig.json
+- [ ] Type all Zustand stores properly
+- [ ] Add JSDoc comments for complex types
+- [ ] Create utility types for common patterns
+
+**Example Structure:**
+```typescript
+// src/types/verse.types.ts
+export interface VerseTranslation {
+  language: 'en' | 'hi';
+  translator: string;
+  text: string;
+  year: number;
 }
 
-```
-
-### deities.json
-
-```json
-{
-  "deities": [
-    {
-      "name": "Agni",
-      "name_sanskrit": "अग्नि",
-      "element": "Fire",
-      "role": "Mediator between humans and gods, messenger",
-      "attributes": ["transformation", "purification", "sacrifice", "light"],
-      "symbols": ["🔥", "flame", "smoke"],
-      "color": "#FF6B35",
-      "hymn_count": 200,
-      "primary_mandalas": [1, 2, 3, 5, 6, 7, 10],
-      "related_deities": ["Indra", "Soma", "Ushas"],
-      "iconography": "Often depicted with seven tongues of flame",
-      "epithets": ["Jatavedas", "Vaisvanara", "Havyavahana"]
-    }
-  ]
+export interface VerseMetadata {
+  deity: {
+    primary: string;
+    secondary?: string;
+  };
+  rishi: {
+    name: string;
+    gotra: string;
+    family: string;
+  };
+  meter: string;
+  category: 'devata' | 'daiva' | 'aranya';
 }
 
-```
----
-
-## 🎯 Page Specifications
-
-**Features:**
-
-- Subtle parallax scroll effect
-- Animated Sanskrit text (fade in with stagger)
-- Particle system representing cosmic energy
-- Smooth scroll to sections
-- Verse of the day rotates based on date
-
----
-
-### 2. EXPLORE PAGE (`/explore`) - MAIN READING INTERFACE
-
-**Layout Options:**
-
-**Option A: Side-by-side (like quran.com)**
-
-```
-┌──────────────────────────────────────────┐
-│         Sticky Navigation Bar             │
-├─────────────┬────────────────────────────┤
-│             │                             │
-│  Filters &  │     Verse Display           │
-│  Navigation │                             │
-│             │  ┌──────────────────────┐  │
-│  Mandala ▼  │  │  Verse Card          │  │
-│  Sukta   ▼  │  │                      │  │
-│  Deity   ▼  │  │  Sanskrit (large)    │  │
-│  Theme   ▼  │  │  Transliteration     │  │
-│             │  │  Translation         │  │
-│  [Search]   │  │  [Context] [Audio]   │  │
-│             │  └──────────────────────┘  │
-│  Bookmarks  │                             │
-│  Recent     │  ┌──────────────────────┐  │
-│             │  │  Next Verse Card     │  │
-│             │  └──────────────────────┘  │
-│             │                             │
-│             │     [Load More]             │
-│             │                             │
-└─────────────┴────────────────────────────┘
-
+export interface VerseData {
+  id: string;
+  mandala: number;
+  sukta: number;
+  verse: number;
+  text: {
+    sanskrit: string;
+    iast: string;
+    translations: VerseTranslation[];
+  };
+  metadata: VerseMetadata;
+  themes: string[];
+  keywords: {
+    sanskrit: string[];
+    english: string[];
+  };
+  // ... rest of the interface
+}
 ```
 
-**Key Features:**
-
-1. **Verse Card Component** (the heart of the app):
-    
-    ```
-    ┌────────────────────────────────────────┐
-    │ Mandala 1, Sukta 1, Verse 1    [🔖][🔊] │
-    ├────────────────────────────────────────┤
-    │                                        │
-    │   अग्निमीळे पुरोहितं यज्ञस्य देवम्     │
-    │   ऋत्विजम् । होतारं रत्नधातमम् ॥      │
-    │                                        │
-    │   [Tabs: Sanskrit | IAST | Translation]│
-    │                                        │
-    │   agním īḷe puróhitaṃ yajñásya...     │
-    │                                        │
-    ├────────────────────────────────────────┤
-    │ Translation by: [Griffith ▼]           │
-    │                                        │
-    │ I Laud Agni, the chosen Priest,       │
-    │ God, minister of sacrifice,            │
-    │ The hotar, lavishest of wealth.       │
-    │                                        │
-    ├────────────────────────────────────────┤
-    │ 🔥 Deity: Agni  👤 Rishi: Madhuchchh.. │
-    │ 📊 Meter: Gayatri  🏷️ fire, sacrifice  │
-    ├────────────────────────────────────────┤
-    │ ℹ️ Context: Opening verse of the      │
-    │    entire Rig Veda...  [Read More]    │
-    ├────────────────────────────────────────┤
-    │ [🤖 Ask AI] [🔗 Share] [📋 Compare]   │
-    └────────────────────────────────────────┘
-    
-    ```
-    
-2. **Reading Modes:**
-    - **Continuous Scroll** (default): Verses flow like a book
-    - **Card View**: One verse at a time with next/prev buttons
-    - **Parallel View**: Multiple translations side-by-side
-    - **Study Mode**: With notes, commentary, etymology
-3. **Filter Panel:**
-    - Smart filters that update in real-time
-    - Show verse count for each filter option
-    - Multi-select for themes
-    - "Clear all" button
-    - Save filter combinations
-4. **Advanced Search:**
-    - Fuzzy search across all text (Sanskrit, IAST, English)
-    - Search by keyword, deity, rishi, meter
-    - Regex support for scholarly research
-    - Search history
-5. **Audio Playback:**
-    - Click speaker icon to hear Vedic chanting
-    - Adjustable playback speed
-    - Auto-play next verse option
-    - Download option
+**Estimated Time:** 6 hours
 
 ---
 
-### 3. DISCOVER PAGE (`/discover`) - VISUALIZATIONS & INSIGHTS
+## 📋 Phase 2: Performance Optimization (Priority: HIGH)
 
-**Tab Structure:**
+### 2.1 Virtualization
+**Goal:** Handle large verse lists efficiently
 
-```
-[🕸️ Connections] [🗺️ Geography] [📈 Analytics] [⏳ Timeline]
+**Tasks:**
+- [ ] Install and configure `@tanstack/react-virtual`
+- [ ] Implement virtualized list in VerseList component
+- [ ] Add "Jump to verse" functionality
+- [ ] Optimize scroll performance
+- [ ] Test with full dataset (10,000+ verses)
 
-```
+**Implementation:**
+```typescript
+// src/components/explore/VerseList.tsx
+import { useVirtualizer } from '@tanstack/react-virtual'
 
-### Tab 1: **Deity Network Graph**
+const VerseList = ({ verses }) => {
+  const parentRef = useRef<HTMLDivElement>(null)
 
-- Interactive force-directed graph
-- Nodes = Deities (size = hymn count)
-- Edges = Co-mentions in hymns
-- Click node → see all related verses
-- Hover → show deity info
-- Filter by mandala
-- **Tech**: D3.js force simulation
+  const virtualizer = useVirtualizer({
+    count: verses.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 200, // estimated verse card height
+    overscan: 5, // render 5 extra items
+  })
 
-### Tab 2: **Geographic Explorer**
-
-- Beautiful Mapbox map of ancient India
-- Markers for regions mentioned in verses
-- Heatmap of geographical references
-- Timeline slider to see how geography evolved
-- Click region → verses that mention it
-- Historical overlays (Sapta Sindhu region, etc.)
-
-### Tab 3: **Theme & Analytics Dashboard**
-
-```
-┌─────────────────┬──────────────────┐
-│ Top Deities     │  Theme Cloud     │
-│ (Bar Chart)     │  (Interactive)   │
-├─────────────────┼──────────────────┤
-│ Meter           │  Rishi Families  │
-│ Distribution    │  (Sunburst)      │
-└─────────────────┴──────────────────┘
-
+  // ... implementation
+}
 ```
 
-### Tab 4: **Timeline Journey**
-
-- Horizontal scrolling timeline
-- Three layers: Early/Middle/Late Rigvedic
-- Verses positioned chronologically
-- Animated transitions
-- Click era → filter verses by period
+**Estimated Time:** 4 hours
 
 ---
 
-### 4. LEARN PAGE (`/learn`)
+### 2.2 Code Splitting & Lazy Loading
+**Goal:** Reduce initial bundle size
 
-**Sections:**
+**Tasks:**
+- [ ] Lazy load page components
+- [ ] Lazy load heavy dependencies (D3, Mapbox)
+- [ ] Split vendor bundles
+- [ ] Implement route-based code splitting
+- [ ] Add loading boundaries with Suspense
 
-1. **Introduction to Rig Veda**
-    - What is it?
-    - Historical context
-    - Structure explanation
-    - Cultural significance
-2. **Reading Guide**
-    - How to approach the text
-    - Understanding meters
-    - Deity guide
-    - Glossary of terms
-3. **Curated Collections**
-    - "Start Here" - 10 essential hymns
-    - "Cosmic Hymns" - Creation, nature
-    - "Philosophical Gems"
-    - "Ritual Texts"
-4. **Reading Plans**
-    - "Rig Veda in 30 days"
-    - "One Mandala at a time"
-    - Custom plan creator
+**Implementation:**
+```typescript
+// src/App.tsx
+import { lazy, Suspense } from 'react'
 
----
+const Home = lazy(() => import('./pages/Home'))
+const Explore = lazy(() => import('./pages/Explore'))
+const Discover = lazy(() => import('./pages/Discover'))
 
-### 5. SETTINGS PAGE (`/settings`)
-
-**Preferences:**
-
-- **Reading:**
-    - Default script (Devanagari/IAST/Both)
-    - Default translation (Griffith/Jamison/Wilson)
-    - Font size slider
-    - Line spacing
-    - Reading mode
-- **Display:**
-    - Theme (Light/Dark/Auto)
-    - Color scheme
-    - Animation speed
-    - Reduced motion option
-- **Audio:**
-    - Auto-play
-    - Playback speed
-    - Volume
-- **Privacy:**
-    - Data collection: None
-    - Bookmarks stored locally
-    - Export/Import bookmarks
-
----
-
-## 🎨 Component Design Specifications
-
-### VerseCard.jsx - Detailed Spec
-
-```jsx
-<VerseCard
-  verse={verseData}
-  viewMode="full" // full | compact | minimal
-  showContext={true}
-  showTranslation={true}
-  translationPreference="Griffith"
-  enableAudio={true}
-  enableBookmark={true}
-  onVerseClick={handleVerseClick}
-/>
-
+// In routes:
+<Suspense fallback={<PageLoader />}>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/explore" element={<Explore />} />
+    <Route path="/discover" element={<Discover />} />
+  </Routes>
+</Suspense>
 ```
 
-**Visual States:**
-
-- Default
-- Hover (subtle lift, shadow increase)
-- Active/Selected (accent border)
-- Bookmarked (gold star icon)
-- Playing audio (pulsing indicator)
-
-**Interactions:**
-
-- Click anywhere → expand/collapse context
-- Click deity → filter by that deity
-- Click theme tag → filter by theme
-- Long press → quick actions menu
-- Swipe (mobile) → next/previous verse
+**Estimated Time:** 3 hours
 
 ---
 
-## 🚀 Novel Features (Differentiation)
+### 2.3 Memoization & Optimization
+**Goal:** Prevent unnecessary re-renders
 
-### 1. **AI Companion** (Sophisticated Implementation)
+**Tasks:**
+- [ ] Add React.memo to expensive components
+- [ ] Use useMemo for expensive calculations
+- [ ] Use useCallback for event handlers passed as props
+- [ ] Optimize Zustand selectors
+- [ ] Add React DevTools Profiler checks
+- [ ] Document optimization decisions
 
-**Capabilities:**
+**Areas to Optimize:**
+- VerseCard rendering
+- Filter calculations
+- Sidebar tree rendering
+- Search result filtering
 
-- "What does this verse mean?"
-- "Find verses about [concept]"
-- "Explain the symbolism of Agni"
-- "Compare this to [another verse]"
-- "What's the historical context?"
+**Estimated Time:** 5 hours
 
-**UI:**
+---
 
-- Floating action button in corner
-- Slide-up chat panel (doesn't cover content)
-- Context-aware: knows which verse you're viewing
-- Shows source verses for answers
-- **Important**: Never claims certainty, always cites sources
+## 📋 Phase 3: State Management Improvements (Priority: MEDIUM)
 
-**Prompt Template for Claude:**
+### 3.1 Zustand Store Refactoring
+**Goal:** Clean, typed, efficient state management
 
-```
-You are a knowledgeable but humble assistant for the Rig Veda Explorer.
+**Tasks:**
+- [ ] Split large stores into smaller slices
+- [ ] Add middleware (persist, devtools)
+- [ ] Implement proper TypeScript typing
+- [ ] Add computed values/selectors
+- [ ] Document state management patterns
 
-User is viewing: Mandala {m}, Sukta {s}, Verse {v}
-
-Context:
-{verse_text}
-{verse_metadata}
-
-User asks: {user_question}
-
-Provide a thoughtful response that:
-1. Answers their question accurately
-2. Cites specific verses when relevant
-3. Acknowledges scholarly debate where applicable
-4. Suggests related verses to explore
-5. Uses respectful, educational tone
-
-Format your response in markdown.
-
+**New Store Structure:**
+```typescript
+src/store/
+  ├── index.ts (store exports)
+  ├── slices/
+  │   ├── verseSlice.ts
+  │   ├── filterSlice.ts
+  │   ├── uiSlice.ts
+  │   ├── userSlice.ts
+  │   └── bookmarkSlice.ts
+  ├── middleware/
+  │   ├── persistence.ts
+  │   └── logger.ts (dev only)
+  └── types.ts
 ```
 
-### 2. **Verse Constellations**
+**Example Slice:**
+```typescript
+// src/store/slices/filterSlice.ts
+import { StateCreator } from 'zustand'
 
-- Click "Explore Connections" on any verse
-- Reveals force-directed graph of related verses
-- Lines represent: shared deity, theme, meter, geographical reference
-- Click any node → navigate to that verse
-- Beautiful particle trails when navigating
-
-### 3. **Comparative Translation View**
-
-- Split screen showing 2-3 translations simultaneously
-- Highlight differences in interpretation
-- Scholar biography on hover
-- "Why do they differ?" AI explanation
-
-### 4. **Personal Library**
-
-- Create custom collections
-- Add notes to verses
-- Highlight passages
-- Export as PDF/Markdown
-- Share collection via link
-
-### 5. **Ritual Context Mode**
-
-- Toggle showing how verses are used in actual rituals
-- "This verse is chanted during..."
-- Step-by-step ritual sequences
-- Educational, not instructional
-
----
-
-## 🎭 Animation & Interaction Details
-
-### Micro-interactions:
-
-1. **Page transitions**: Smooth fade + slight slide (300ms)
-2. **Card hover**: Lift 4px, shadow blur 20px → 30px
-3. **Filter selection**: Checkbox with checkmark animation
-4. **Loading states**: Skeleton screens (not spinners)
-5. **Verse navigation**: Slide in from right (next) / left (prev)
-6. **Bookmark**: Heart fills with liquid animation
-7. **Theme toggle**: Sun/moon morph animation
-
-### Scroll animations:
-
-- Parallax hero on homepage
-- Fade-in verses as they enter viewport
-- Sticky navigation with shadow on scroll
-- "Back to top" button appears after 2 scrolls
-
-### Transitions:
-
-```css
-/* Global transition config */
---transition-speed: 200ms;
---transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
-
-```
-
----
-
-## ♿ Accessibility Requirements
-
-**Must-haves:**
-
-- Semantic HTML5 throughout
-- ARIA labels on all interactive elements
-- Keyboard navigation (Tab, Enter, Arrow keys)
-- Focus visible states (not default browser outline)
-- Skip to content link
-- Alt text for all images
-- Captions for audio
-- Screen reader announcements for dynamic content
-- Minimum contrast ratio: 4.5:1 for text
-- Touch targets: minimum 44x44px
-- No motion for users with `prefers-reduced-motion`
-
-**Testing checklist:**
-
-- [ ]  Works with keyboard only
-- [ ]  Works with screen reader (NVDA/JAWS)
-- [ ]  Passes WAVE accessibility checker
-- [ ]  Passes Lighthouse accessibility audit (90+)
-
----
-
-## 📱 Responsive Design
-
-**Breakpoints:**
-
-```
-mobile: 320px - 640px
-tablet: 641px - 1024px
-desktop: 1025px+
-
-```
-
-**Mobile-specific:**
-
-- Hamburger menu for navigation
-- Single column layout on explore page
-- Bottom nav bar (common for mobile apps)
-- Swipe gestures for verse navigation
-- Collapsible filter panel
-- Larger touch targets
-
-**Tablet:**
-
-- Two-column layout where appropriate
-- Side drawer for filters
-- Hybrid navigation
-
----
-
-## 🔍 SEO & Performance
-
-**SEO:**
-
-- Meaningful page titles: "Rig Veda 1.1.1 - Agni Invocation | RigVeda Explorer"
-- Meta descriptions with verse preview
-- Open Graph tags for social sharing
-- Canonical URLs
-- Sitemap.xml with all verses
-- robots.txt
-
-**Performance:**
-
-- Code splitting by route
-- Lazy load images
-- Virtual scrolling for long lists (react-window)
-- Debounce search input (300ms)
-- Compress JSON data (gzip)
-- CDN for fonts and assets
-- Service worker for offline access
-- Target Lighthouse score: 90+ in all categories
-
----
-
-## 🛡️ Data Attribution & Ethics
-
-**Critical Requirements:**
-
-- Prominent attribution for translations
-    - Griffith (1896) - Public domain
-    - Jamison-Brereton (2014) - Cite with permission notes
-    - Wilson (1850) - Public domain
-- "About" page explaining sources
-- Clear statement: "Educational and scholarly purpose"
-- No paywalls (honor hackathon rules)
-- Privacy-first: No tracking, no cookies, no analytics without consent
-- Open source license consideration (MIT or Apache 2.0)
-
-**Data Collection Statement:**
-
-```
-"RigVeda Explorer collects no personal data.
-Bookmarks and preferences are stored only on your device.
-We respect your privacy and the sacred nature of this text."
-
-```
-
----
-
-## 🎯 Implementation Priorities
-
-### Phase 1: Core Experience (Foundation)
-
-1. Set up React + Vite project
-2. Implement routing
-3. Create basic layout components (Navbar, Footer, PageLayout)
-4. Build VerseCard component (this is the most important)
-5. Create verse data structure + load sample data (50 verses)
-6. Build Explore page with basic filtering
-7. Implement search functionality
-8. Add bookmarking (localStorage)
-
-### Phase 2: Visual Polish
-
-1. Design system: colors, typography, spacing
-2. Animations with Framer Motion
-3. Dark mode implementation
-4. Responsive design for mobile/tablet
-5. Beautiful Home page
-6. Settings page
-
-### Phase 3: Advanced Features
-
-1. AI Assistant integration
-2. Deity Network visualization (D3.js)
-3. Geographic Map (Mapbox)
-4. Timeline view
-5. Analytics dashboard
-6. Parallel translation view
-
-### Phase 4: Refinement
-
-1. Accessibility audit & fixes
-2. Performance optimization
-3. Cross-browser testing
-4. User testing & iteration
-5. Documentation (README, user guide)
-
----
-
-## 🎨 Example Component Code Patterns
-
-### Color System
-
-```jsx
-// tailwind.config.js
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        vedic: {
-          night: '#2D3142',
-          agni: '#FF6B35',
-          ushas: '#FFD93D',
-          soma: '#E8F1F5',
-          gold: '#D4AF37',
-          earth: '#8B7355',
-          sky: '#4A90E2'
-        }
-      },
-      fontFamily: {
-        sanskrit: ['Noto Serif Devanagari', 'serif'],
-        transliteration: ['Gentium Plus', 'serif'],
-        reading: ['Crimson Pro', 'serif'],
-        ui: ['Inter', 'sans-serif']
-      }
-    }
+export interface FilterSlice {
+  filters: {
+    deities: string[]
+    meters: string[]
+    rishis: string[]
+    mandalas: number[]
   }
+  setFilter: (key: keyof FilterSlice['filters'], value: any) => void
+  clearFilters: () => void
+  activeFilterCount: number // computed
 }
 
+export const createFilterSlice: StateCreator<FilterSlice> = (set, get) => ({
+  filters: {
+    deities: [],
+    meters: [],
+    rishis: [],
+    mandalas: [],
+  },
+  setFilter: (key, value) => set((state) => ({
+    filters: { ...state.filters, [key]: value }
+  })),
+  clearFilters: () => set({
+    filters: {
+      deities: [],
+      meters: [],
+      rishis: [],
+      mandalas: [],
+    }
+  }),
+  get activeFilterCount() {
+    const filters = get().filters
+    return Object.values(filters).flat().length
+  }
+})
 ```
 
-### Animation Patterns
+**Estimated Time:** 6 hours
 
-```jsx
-// Framer Motion variants
-const fadeInUp = {
+---
+
+## 📋 Phase 4: Enhanced User Experience (Priority: MEDIUM)
+
+### 4.1 Loading States & Skeletons
+**Goal:** Better perceived performance
+
+**Tasks:**
+- [ ] Create skeleton components for all major UI elements
+- [ ] Add loading states to all async operations
+- [ ] Implement optimistic UI updates
+- [ ] Add error boundaries with retry logic
+- [ ] Create success/error toast notifications
+
+**Components:**
+```typescript
+src/components/loading/
+  ├── VerseSkeleton.tsx
+  ├── FilterSkeleton.tsx
+  ├── SidebarSkeleton.tsx
+  └── PageSkeleton.tsx
+```
+
+**Estimated Time:** 4 hours
+
+---
+
+### 4.2 Animation Refinement
+**Goal:** Smooth, purposeful animations
+
+**Tasks:**
+- [ ] Audit all animations for performance
+- [ ] Add spring physics to interactive elements
+- [ ] Implement page transitions
+- [ ] Add loading animations
+- [ ] Respect `prefers-reduced-motion`
+- [ ] Create animation utility library
+
+**Animation Utilities:**
+```typescript
+// src/utils/animations.ts
+export const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -20 },
-  transition: { duration: 0.3 }
 }
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
+export const staggerChildren = {
+  animate: { transition: { staggerChildren: 0.1 } }
 }
 
+export const scaleOnHover = {
+  whileHover: { scale: 1.02 },
+  whileTap: { scale: 0.98 },
+}
 ```
+
+**Estimated Time:** 5 hours
 
 ---
 
-## 📋 Quality Checklist
+### 4.3 Responsive Design Enhancement
+**Goal:** Perfect experience on all devices
 
-Before considering the project complete, verify:
+**Tasks:**
+- [ ] Audit mobile experience
+- [ ] Add touch gestures (swipe for navigation)
+- [ ] Optimize navbar for mobile
+- [ ] Create mobile-specific verse view
+- [ ] Test on various devices and screen sizes
+- [ ] Add PWA capabilities (manifest, icons)
 
-**UX:**
-
-- [ ]  Can a new user understand the purpose in 3 seconds?
-- [ ]  Can user find and read any verse in under 30 seconds?
-- [ ]  Are all interactions smooth and responsive?
-- [ ]  Is the design beautiful and cohesive?
-- [ ]  Does it feel respectful of the sacred text?
-
-**Technical:**
-
-- [ ]  No console errors
-- [ ]  Fast load time (<3 seconds)
-- [ ]  Works on Chrome, Firefox, Safari
-- [ ]  Fully responsive on mobile
-- [ ]  Keyboard accessible
-- [ ]  No accessibility errors
-
-**Content:**
-
-- [ ]  All translations properly attributed
-- [ ]  Data is accurate (verify against source)
-- [ ]  Context notes are factual
-- [ ]  Citations are complete
-
-**Hackathon Requirements:**
-
-- [ ]  Uses only RigVeda Samhita (Mandalas 1-10)
-- [ ]  Publicly accessible link
-- [ ]  No login required
-- [ ]  Works on desktop
-- [ ]  AI is clearly labeled
-- [ ]  Sources are attributed
-- [ ]  No copyrighted content uploaded
+**Estimated Time:** 6 hours
 
 ---
 
-## 🎬 Final Notes for Cursor AI
+## 📋 Phase 5: Data Layer Improvements (Priority: MEDIUM)
 
-**Development Philosophy:**
+### 5.1 Data Fetching Strategy
+**Goal:** Efficient, cached data loading
 
-- Write clean, commented code
-- Use TypeScript for type safety
-- Follow React best practices (hooks, composition)
-- Keep components small and focused
-- Test each feature thoroughly before moving on
-- Commit frequently with clear messages
+**Tasks:**
+- [ ] Implement React Query or SWR for data fetching
+- [ ] Add proper cache invalidation
+- [ ] Implement stale-while-revalidate strategy
+- [ ] Add offline support
+- [ ] Create data prefetching for predictive loading
+- [ ] Add error retry with exponential backoff
 
-**Visual Philosophy:**
+**Example with React Query:**
+```typescript
+// src/hooks/useVerses.ts
+import { useQuery } from '@tanstack/react-query'
+import { loadVerses } from '../utils/verseLoader'
 
-- Less is more - don't over-design
-- Respect white space
-- Consistent spacing system (4px, 8px, 16px, 24px, 32px, 48px)
-- Typography hierarchy is crucial
-- Every animation should have purpose
+export const useVerses = () => {
+  return useQuery({
+    queryKey: ['verses'],
+    queryFn: loadVerses,
+    staleTime: 1000 * 60 * 60, // 1 hour
+    cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    refetchOnWindowFocus: false,
+  })
+}
 
-**User-First:**
+export const useMandala = (mandalaNumber: number) => {
+  return useQuery({
+    queryKey: ['mandala', mandalaNumber],
+    queryFn: () => loadMandala(mandalaNumber),
+    staleTime: 1000 * 60 * 60,
+  })
+}
+```
 
-- Performance > Features
-- Clarity > Cleverness
-- Accessibility > Aesthetics (but achieve both!)
-- Respect > Innovation (this is sacred text)
+**Estimated Time:** 5 hours
 
 ---
 
-## 🚀 Getting Started Prompt for Cursor
+### 5.2 Search Enhancement
+**Goal:** Fast, accurate search
 
+**Tasks:**
+- [ ] Implement Fuse.js for fuzzy search
+- [ ] Add search result highlighting
+- [ ] Implement search history
+- [ ] Add search suggestions/autocomplete
+- [ ] Optimize search index
+- [ ] Add advanced search operators
+
+**Estimated Time:** 6 hours
+
+---
+
+## 📋 Phase 6: Accessibility & Testing (Priority: HIGH)
+
+### 6.1 Accessibility Improvements
+**Goal:** WCAG AA compliance
+
+**Tasks:**
+- [ ] Run Lighthouse accessibility audit
+- [ ] Add missing ARIA labels
+- [ ] Improve focus management
+- [ ] Add skip links for all major sections
+- [ ] Test with screen readers (NVDA, JAWS, VoiceOver)
+- [ ] Verify keyboard navigation completeness
+- [ ] Add high contrast mode support
+- [ ] Test with browser zoom (up to 200%)
+
+**Checklist:**
+- [ ] All images have alt text
+- [ ] All interactive elements are keyboard accessible
+- [ ] Color contrast ratios meet WCAG AA
+- [ ] Form inputs have labels
+- [ ] Error messages are descriptive
+- [ ] Loading states announced to screen readers
+- [ ] Dynamic content changes announced
+
+**Estimated Time:** 8 hours
+
+---
+
+### 6.2 Testing Strategy
+**Goal:** Comprehensive test coverage
+
+**Tasks:**
+- [ ] Fix existing test memory issues
+- [ ] Achieve 80% code coverage
+- [ ] Write unit tests for utilities
+- [ ] Write component tests with React Testing Library
+- [ ] Add integration tests for user flows
+- [ ] Set up E2E tests with Playwright
+- [ ] Add visual regression tests
+- [ ] Set up CI/CD with test automation
+
+**Test Structure:**
 ```
-Create a new React + Vite project called "rigveda-explorer".
-
-Set up the following:
-1. Install dependencies: react-router-dom, zustand, framer-motion, tailwindcss, lucide-react
-2. Configure Tailwind with the vedic color scheme provided
-3. Set up folder structure as specified
-4. Create basic routing for Home, Explore, Discover, Learn, About pages
-5. Create a Navbar component with navigation links
-6. Create a sample verses.json with 10 verses (Mandala 1, Sukta 1, Verses 1-10)
-7. Create a VerseCard component that displays Sanskrit, IAST, and English translation
-8. On the Explore page, load and display these 10 verses
-
-Make it beautiful with good typography and spacing. Use the Crimson Pro font for body text.
-
+test/
+  ├── unit/
+  │   ├── utils/
+  │   │   ├── verseLoader.test.ts
+  │   │   ├── searchEngine.test.ts
+  │   │   └── transliteration.test.ts
+  │   └── hooks/
+  │       ├── useVerses.test.ts
+  │       └── useFilters.test.ts
+  ├── integration/
+  │   ├── verse-filtering.test.tsx
+  │   ├── bookmark-workflow.test.tsx
+  │   └── search-flow.test.tsx
+  └── e2e/
+      ├── navigation.spec.ts
+      ├── explore-page.spec.ts
+      └── theme-switching.spec.ts
 ```
+
+**Estimated Time:** 16 hours
+
+---
+
+## 📋 Phase 7: Documentation & Developer Experience (Priority: LOW)
+
+### 7.1 Code Documentation
+**Goal:** Self-documenting codebase
+
+**Tasks:**
+- [ ] Add JSDoc comments to all public APIs
+- [ ] Create component documentation with examples
+- [ ] Document state management patterns
+- [ ] Create architecture decision records (ADRs)
+- [ ] Add inline comments for complex logic
+- [ ] Generate API documentation with TypeDoc
+
+**Estimated Time:** 6 hours
+
+---
+
+### 7.2 Developer Tooling
+**Goal:** Smooth development experience
+
+**Tasks:**
+- [ ] Set up ESLint with strict rules
+- [ ] Configure Prettier for consistent formatting
+- [ ] Add pre-commit hooks with Husky
+- [ ] Set up VS Code workspace settings
+- [ ] Create development scripts (lint, format, test)
+- [ ] Add commit message linting
+- [ ] Create debugging configurations
+
+**Estimated Time:** 4 hours
+
+---
+
+## 📋 Phase 8: Prepare for Advanced Features (Priority: LOW)
+
+### 8.1 Visualization Foundation
+**Goal:** Architecture for D3.js visualizations
+
+**Tasks:**
+- [ ] Create visualization component structure
+- [ ] Set up D3.js utilities
+- [ ] Create shared scales and axes
+- [ ] Implement responsive SVG containers
+- [ ] Add animation utilities for transitions
+- [ ] Create data transformation utilities
+
+**Structure:**
+```typescript
+src/components/visualizations/
+  ├── base/
+  │   ├── SVGContainer.tsx
+  │   ├── ResponsiveChart.tsx
+  │   └── Legend.tsx
+  ├── DeityNetwork/
+  │   ├── DeityNetwork.tsx
+  │   ├── useForceSimulation.ts
+  │   └── types.ts
+  └── utils/
+      ├── scales.ts
+      ├── colors.ts
+      └── animations.ts
+```
+
+**Estimated Time:** 8 hours
+
+---
+
+### 8.2 AI Integration Preparation
+**Goal:** Clean interface for AI features
+
+**Tasks:**
+- [ ] Design AI service architecture
+- [ ] Create API client for Anthropic Claude
+- [ ] Implement rate limiting
+- [ ] Add caching for AI responses
+- [ ] Create prompt templates
+- [ ] Add streaming response support
+- [ ] Implement context management
+
+**Estimated Time:** 6 hours
+
+---
+
+## 📊 Refactor Metrics & Success Criteria
+
+### Performance Targets
+- [ ] Lighthouse Performance Score: 90+
+- [ ] First Contentful Paint: < 1.5s
+- [ ] Time to Interactive: < 3s
+- [ ] Bundle Size: < 500KB (gzipped)
+- [ ] Verse List Rendering: 60fps
+
+### Code Quality Targets
+- [ ] Test Coverage: > 80%
+- [ ] TypeScript Strict Mode: Enabled
+- [ ] ESLint Errors: 0
+- [ ] Code Duplication: < 3%
+
+### Accessibility Targets
+- [ ] Lighthouse Accessibility Score: 100
+- [ ] WCAG AA Compliance: 100%
+- [ ] Keyboard Navigation: Complete
+- [ ] Screen Reader Support: Full
+
+### User Experience Targets
+- [ ] Page Load Time: < 2s
+- [ ] Filter Response Time: < 100ms
+- [ ] Search Response Time: < 200ms
+- [ ] Animation Frame Rate: 60fps
+
+---
+
+## 🔄 Refactor Schedule
+
+### Week 1: Foundation (Phases 1-2)
+- Days 1-2: Color system & component refactoring
+- Days 3-4: TypeScript improvements
+- Days 5-7: Performance optimization
+
+### Week 2: Enhancement (Phases 3-4)
+- Days 1-2: State management refactoring
+- Days 3-4: Loading states & animations
+- Days 5-7: Responsive design
+
+### Week 3: Quality (Phases 5-6)
+- Days 1-2: Data layer improvements
+- Days 3-7: Accessibility & testing
+
+### Week 4: Polish (Phases 7-8)
+- Days 1-3: Documentation
+- Days 4-7: Advanced feature preparation
+
+**Total Estimated Time:** ~120 hours (3-4 weeks for 1 developer)
+
+---
+
+## 🚨 Breaking Changes & Migration Notes
+
+### API Changes
+- `useVerses()` hook will return React Query result object
+- Zustand store structure will change (update imports)
+- Color class names will be standardized
+
+### Component Props Changes
+- VerseCard will accept stricter TypeScript props
+- Filter components will use new filter state structure
+
+### Migration Checklist
+- [ ] Update all color class usage
+- [ ] Update Zustand store imports
+- [ ] Update component prop usage
+- [ ] Test all features after migration
+
+---
+
+## 📝 Notes & Considerations
+
+### Technical Decisions
+1. **React Query vs SWR**: Chose React Query for better DevTools and advanced features
+2. **Virtual Scrolling**: Using @tanstack/react-virtual for consistency with React Query
+3. **Testing Framework**: Vitest + React Testing Library + Playwright
+4. **Component Library**: Building custom components for full control
+
+### Future Enhancements (Post-Refactor)
+- [ ] Implement AI assistant
+- [ ] Add D3.js visualizations
+- [ ] Integrate Mapbox for geographic explorer
+- [ ] Add audio pronunciation
+- [ ] Create reading plans feature
+- [ ] Add social sharing
+- [ ] Implement verse comparison view
+- [ ] Add export to PDF/Markdown
+- [ ] Create mobile app (React Native)
+
+### Risk Assessment
+**High Risk:**
+- Large-scale component refactoring may introduce regressions
+- Performance optimization requires careful testing
+
+**Medium Risk:**
+- State management changes require thorough migration
+- TypeScript strict mode may reveal hidden issues
+
+**Low Risk:**
+- Documentation and tooling improvements
+- Animation refinements
+
+### Mitigation Strategies
+- Maintain feature branch throughout refactor
+- Incremental changes with frequent testing
+- Comprehensive test coverage before major changes
+- User acceptance testing after each phase
+
+---
+
+## ✅ Definition of Done
+
+A refactor phase is complete when:
+1. All tasks in the phase are checked off
+2. All tests pass
+3. No ESLint errors or warnings
+4. Code reviewed (self or peer)
+5. Documentation updated
+6. Performance metrics verified
+7. Accessibility checked
+8. User testing completed (if applicable)
+
+---
+
+## 🎯 Success Indicators
+
+**The refactor is successful if:**
+1. ✅ Codebase is easier to understand and maintain
+2. ✅ Performance metrics improved by 20%+
+3. ✅ Test coverage increased to 80%+
+4. ✅ No regression in existing features
+5. ✅ Developer velocity improved
+6. ✅ User experience is smoother
+7. ✅ Ready for advanced feature development
+
+---
+
+**Last Updated:** 2025-11-02
+**Maintained By:** Development Team
+**Review Frequency:** Weekly during refactor, monthly after completion
