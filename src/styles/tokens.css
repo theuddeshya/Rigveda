@@ -1,5 +1,19 @@
+/**
+ * Design Tokens - Rigveda Explorer
+ *
+ * Color System inspired by earthy, natural tones
+ * Source: ColorHunt Earthy Palette
+ *
+ * Usage in components:
+ * - Use Tailwind classes: bg-vedic-charcoal, text-vedic-cream, etc.
+ * - All colors support opacity modifiers: bg-vedic-sage/50
+ * - Theming handled automatically via .light and .dark classes
+ */
+
 :root {
-  /* Spacing (px) */
+  /* ========================================
+     SPACING SCALE
+     ======================================== */
   --spacing-4: 4px;
   --spacing-8: 8px;
   --spacing-16: 16px;
@@ -7,16 +21,33 @@
   --spacing-32: 32px;
   --spacing-48: 48px;
 
-  /* Default theme values (dark) - dark mode is now the default */
-  --color-vedic-bg: #3C3D37;
-  --color-vedic-text: #ECDFCC;
-  --color-vedic-ui: #181C14;
-  --color-vedic-accent: #697565;
-  /* Additional semantic tokens */
-  --color-vedic-sage: #697565;
-  --color-vedic-cream: #ECDFCC;
-  --color-vedic-slate: #3C3D37;
-  --color-vedic-charcoal: #181C14;
+  /* ========================================
+     COLOR SYSTEM - Dark Mode (Default)
+     ======================================== */
+
+  /* Primary Colors */
+  --color-vedic-bg: #3C3D37;        /* Slate - Main background */
+  --color-vedic-text: #ECDFCC;      /* Cream - Text color */
+  --color-vedic-ui: #181C14;        /* Charcoal - UI elements, cards */
+  --color-vedic-accent: #697565;    /* Sage - Accents, borders */
+
+  /* Semantic Color Names (easier to remember) */
+  --color-vedic-sage: #697565;      /* Sage - Accents, hover states */
+  --color-vedic-cream: #ECDFCC;     /* Cream - Light text, backgrounds */
+  --color-vedic-slate: #3C3D37;     /* Slate - Main background dark */
+  --color-vedic-charcoal: #181C14;  /* Charcoal - Dark UI, footer, navbar */
+
+  /* RGB Variants (for Tailwind opacity modifiers) */
+  --color-vedic-sage-rgb: 105,117,101;   /* #697565 */
+  --color-vedic-cream-rgb: 236,223,204;  /* #ECDFCC */
+  --color-vedic-slate-rgb: 60,61,55;     /* #3C3D37 */
+  --color-vedic-charcoal-rgb: 24,28,20;  /* #181C14 */
+
+  /* Primary Token RGB Variants */
+  --color-vedic-bg-rgb: 60,61,55;         /* #3C3D37 */
+  --color-vedic-text-rgb: 236,223,204;    /* #ECDFCC */
+  --color-vedic-ui-rgb: 24,28,20;         /* #181C14 */
+  --color-vedic-accent-rgb: 105,117,101;  /* #697565 */
   /* RGB variants for rgba() and Tailwind opacity */
   --color-vedic-sage-rgb: 105,117,101;   /* #697565 */
   --color-vedic-cream-rgb: 236,223,204;  /* #ECDFCC */
@@ -28,34 +59,45 @@
   --color-vedic-ui-rgb: 24,28,20;         /* #181C14 */
   --color-vedic-accent-rgb: 105,117,101;  /* #697565 */
 
-  /* Font family names */
-  --font-sanskrit: 'Noto Serif Devanagari', serif;
-  --font-transliteration: 'Gentium Plus', serif;
-  --font-reading: 'Crimson Pro', serif;
-  --font-ui: 'Inter', sans-serif;
+  /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+  --font-sanskrit: 'Noto Serif Devanagari', serif;  /* Sanskrit/Devanagari text */
+  --font-transliteration: 'Gentium Plus', serif;    /* IAST transliteration */
+  --font-reading: 'Crimson Pro', serif;             /* English translations */
+  --font-ui: 'Inter', sans-serif;                   /* UI elements, buttons */
 
-  /* Transition tokens */
+  /* ========================================
+     ANIMATIONS & TRANSITIONS
+     ======================================== */
   --transition-speed: 200ms;
-  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);  /* Material Design easing */
 }
 
-/* Light theme overrides (applied when .light class is on <html> or <body>) */
+/* ========================================
+   LIGHT THEME OVERRIDES
+   Applied when .light class is on <html> or <body>
+   ======================================== */
 .light {
-  --color-vedic-bg: #ECDFCC;    /* cream background */
-  --color-vedic-text: #181C14;  /* charcoal text */
-  --color-vedic-ui: #D9D9D2;    /* UI elements (cards, nav) */
-  --color-vedic-accent: #697565; /* sage accent */
-  /* Mirror semantic tokens for light mode */
-  --color-vedic-sage: #697565;
-  --color-vedic-cream: #ECDFCC;
-  --color-vedic-slate: #3C3D37;
-  --color-vedic-charcoal: #181C14;
-  --color-vedic-sage-rgb: 105,117,101;   /* #697565 */
-  --color-vedic-cream-rgb: 236,223,204;  /* #ECDFCC */
-  --color-vedic-slate-rgb: 60,61,55;     /* #3C3D37 */
-  --color-vedic-charcoal-rgb: 217,217,210; /* #D9D9D2 */
-  --color-vedic-bg-rgb: 236,223,204;     /* #ECDFCC */
-  --color-vedic-text-rgb: 24,28,20;      /* #181C14 */
-  --color-vedic-ui-rgb: 217,217,210;     /* #D9D9D2 */
-  --color-vedic-accent-rgb: 105,117,101; /* #697565 */
+  /* Primary Colors - Light Mode */
+  --color-vedic-bg: #ECDFCC;        /* Cream - Main background */
+  --color-vedic-text: #181C14;      /* Charcoal - Text color */
+  --color-vedic-ui: #D9D9D2;        /* Light UI - Cards, panels */
+  --color-vedic-accent: #697565;    /* Sage - Accents (same in both themes) */
+
+  /* Semantic Names - Light Mode */
+  --color-vedic-sage: #697565;      /* Sage - Consistent across themes */
+  --color-vedic-cream: #ECDFCC;     /* Cream - Now background */
+  --color-vedic-slate: #3C3D37;     /* Slate - Darker elements */
+  --color-vedic-charcoal: #181C14;  /* Charcoal - Now text color */
+
+  /* RGB Variants - Light Mode */
+  --color-vedic-sage-rgb: 105,117,101;
+  --color-vedic-cream-rgb: 236,223,204;
+  --color-vedic-slate-rgb: 60,61,55;
+  --color-vedic-charcoal-rgb: 217,217,210;  /* UI elements in light mode */
+  --color-vedic-bg-rgb: 236,223,204;
+  --color-vedic-text-rgb: 24,28,20;
+  --color-vedic-ui-rgb: 217,217,210;
+  --color-vedic-accent-rgb: 105,117,101;
 }
