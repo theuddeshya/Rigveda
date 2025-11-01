@@ -9,10 +9,11 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useUIStore } from '../store/uiStore';
 import type { VerseData } from '../store/verseStore';
 import SearchHistory from '../components/explore/SearchHistory';
-import LoadingState from '../components/explore/LoadingState';
 import ErrorState from '../components/explore/ErrorState';
 import MandalaGrid from '../components/explore/MandalaGrid';
 import VerseList from '../components/explore/VerseList';
+import VerseSkeleton from '../components/loading/VerseSkeleton';
+import FilterSkeleton from '../components/loading/FilterSkeleton';
 
 interface Filters {
   mandala?: number;
@@ -182,7 +183,13 @@ const Explore = () => {
       <div className="min-h-screen bg-gradient-to-b from-vedic-ui via-vedic-bg to-vedic-ui py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-reading mb-6 md:mb-8 font-bold text-vedic-text">Explore the Verses</h1>
-          <FilterPanel allVerses={sourceAllVerses} currentFilters={currentFilters} onFilterChange={setCurrentFilters} />
+
+          {/* Show filter skeleton while loading initial data */}
+          {loading && !currentFilters.mandala ? (
+            <FilterSkeleton />
+          ) : (
+            <FilterPanel allVerses={sourceAllVerses} currentFilters={currentFilters} onFilterChange={setCurrentFilters} />
+          )}
 
           <SearchHistory
             history={history}
@@ -191,7 +198,7 @@ const Explore = () => {
           />
 
           {( (loading && !currentFilters.mandala) || (currentFilters.mandala && loadingMandala === currentFilters.mandala) ) && (
-            <LoadingState />
+            <VerseSkeleton count={3} />
           )}
 
           {error && <ErrorState error={error} />}

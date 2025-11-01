@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import VerseCard from '../verses/VerseCard';
 import EmptyState from './EmptyState';
+import VerseErrorBoundary from '../error/VerseErrorBoundary';
 import type { VerseData } from '../../store/verseStore';
 
 interface VerseListProps {
@@ -67,14 +68,16 @@ const VerseList = ({ verses, sourceVerseCount, verseRefs, onFocusVerse, onClearF
                   }}
                   className="pb-6"
                 >
-                  <VerseCard
-                    verse={verse}
-                    viewMode="full"
-                    showContext
-                    showTranslation
-                    enableAudio={false}
-                    enableBookmark
-                  />
+                  <VerseErrorBoundary>
+                    <VerseCard
+                      verse={verse}
+                      viewMode="full"
+                      showContext
+                      showTranslation
+                      enableAudio={false}
+                      enableBookmark
+                    />
+                  </VerseErrorBoundary>
                 </div>
               );
             })}
@@ -90,14 +93,16 @@ const VerseList = ({ verses, sourceVerseCount, verseRefs, onFocusVerse, onClearF
               tabIndex={0}
               onFocus={() => onFocusVerse(index)}
             >
-              <VerseCard
-                verse={verse}
-                viewMode="full"
-                showContext
-                showTranslation
-                enableAudio={false}
-                enableBookmark
-              />
+              <VerseErrorBoundary>
+                <VerseCard
+                  verse={verse}
+                  viewMode="full"
+                  showContext
+                  showTranslation
+                  enableAudio={false}
+                  enableBookmark
+                />
+              </VerseErrorBoundary>
             </div>
           ))}
         </div>
