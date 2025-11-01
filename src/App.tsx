@@ -1,19 +1,25 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Explore from './pages/Explore';
-import Discover from './pages/Discover';
-import Learn from './pages/Learn';
-// ...existing code...
+import LoadingState from './components/explore/LoadingState';
+
+// Lazy load page components for better performance
+const Home = lazy(() => import('./pages/Home'));
+const Explore = lazy(() => import('./pages/Explore'));
+const Discover = lazy(() => import('./pages/Discover'));
+const Learn = lazy(() => import('./pages/Learn'));
+const Settings = lazy(() => import('./pages/Settings'));
 
 const App = () => (
   <Router>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/explore" element={<Explore />} />
-      <Route path="/discover" element={<Discover />} />
-      <Route path="/learn" element={<Learn />} />
-// ...existing code...
-    </Routes>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen bg-vedic-bg"><LoadingState /></div>}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/discover" element={<Discover />} />
+        <Route path="/learn" element={<Learn />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </Suspense>
   </Router>
 );
 
