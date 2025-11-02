@@ -13,7 +13,7 @@ const HeroSection = () => {
       animate="visible"
       variants={getConditionalVariants(prefersReducedMotion, fadeInVariants)}
       transition={getConditionalTransition(prefersReducedMotion, { duration: 1 })}
-      className="flex flex-col items-center justify-center py-16 md:py-24 px-4"
+      className="flex flex-col items-center justify-center pt-16 md:pt-20 pb-6 md:pb-8 px-4"
     >
       <motion.h1
         variants={getConditionalVariants(prefersReducedMotion, fadeInUpVariants)}

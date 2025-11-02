@@ -8,9 +8,12 @@ interface TabNavigationProps {
 
 const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
   return (
-    <div className="flex flex-wrap gap-2 mb-8 border-b border-vedic-accent/20">
+    <nav className="flex flex-wrap gap-2 mb-8 border-b border-vedic-accent/20" role="tablist" aria-label="Discover insights tabs">
       <button
         onClick={() => onTabChange('analytics')}
+        role="tab"
+        aria-selected={activeTab === 'analytics'}
+        aria-controls="analytics-panel"
         className={cn(
           "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
           activeTab === 'analytics'
@@ -18,11 +21,14 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
             : 'text-muted-foreground hover:text-vedic-text'
         )}
       >
-        <BarChart2 size={20} />
+        <BarChart2 size={20} aria-hidden="true" />
         Analytics
       </button>
       <button
         onClick={() => onTabChange('geography')}
+        role="tab"
+        aria-selected={activeTab === 'geography'}
+        aria-controls="geography-panel"
         className={cn(
           "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
           activeTab === 'geography'
@@ -30,11 +36,14 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
             : 'text-muted-foreground hover:text-vedic-text'
         )}
       >
-        <Globe size={20} />
+        <Globe size={20} aria-hidden="true" />
         Geography
       </button>
       <button
         onClick={() => onTabChange('connections')}
+        role="tab"
+        aria-selected={activeTab === 'connections'}
+        aria-controls="connections-panel"
         className={cn(
           "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
           activeTab === 'connections'
@@ -42,11 +51,14 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
             : 'text-muted-foreground hover:text-vedic-text'
         )}
       >
-        <Network size={20} />
+        <Network size={20} aria-hidden="true" />
         Connections
       </button>
       <button
         onClick={() => onTabChange('timeline')}
+        role="tab"
+        aria-selected={activeTab === 'timeline'}
+        aria-controls="timeline-panel"
         className={cn(
           "flex items-center gap-2 px-4 py-3 font-semibold transition-all duration-200",
           activeTab === 'timeline'
@@ -54,10 +66,10 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
             : 'text-muted-foreground hover:text-vedic-text'
         )}
       >
-        <Clock size={20} />
+        <Clock size={20} aria-hidden="true" />
         Timeline
       </button>
-    </div>
+    </nav>
   );
 };
 
