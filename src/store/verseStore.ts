@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 
 export interface Translation {
   language: string;
@@ -68,13 +69,20 @@ interface VerseStore {
   setFeaturedVerse: (verse: VerseData | null) => void;
   filteredVerses: VerseData[];
   setFilteredVerses: (verses: VerseData[]) => void;
+  clearVerses: () => void;
 }
 
-export const useVerseStore = create<VerseStore>((set) => ({
-  verses: [],
-  setVerses: (verses) => set({ verses }),
-  featuredVerse: null,
-  setFeaturedVerse: (verse) => set({ featuredVerse: verse }),
-  filteredVerses: [],
-  setFilteredVerses: (verses) => set({ filteredVerses: verses }),
-}));
+export const useVerseStore = create<VerseStore>()(
+  devtools(
+    (set) => ({
+      verses: [],
+      setVerses: (verses) => set({ verses }, false, 'setVerses'),
+      featuredVerse: null,
+      setFeaturedVerse: (verse) => set({ featuredVerse: verse }, false, 'setFeaturedVerse'),
+      filteredVerses: [],
+      setFilteredVerses: (verses) => set({ filteredVerses: verses }, false, 'setFilteredVerses'),
+      clearVerses: () => set({ verses: [], filteredVerses: [], featuredVerse: null }, false, 'clearVerses'),
+    }),
+    { name: 'Verse Store' }
+  )
+);

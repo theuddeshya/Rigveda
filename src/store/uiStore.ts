@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
 type Theme = 'light' | 'dark';
 
@@ -19,46 +20,51 @@ interface UIStore {
   toggleTheme: () => void;
 }
 
-export const useUIStore = create<UIStore>((set, get) => {
-  // determine initial theme: localStorage -> default 'dark'
-  const saved = typeof window !== 'undefined' ? (localStorage.getItem('theme') as Theme | null) : null;
-  const initialTheme: Theme = saved ? saved : 'dark';
-
-  // ensure document class matches initial theme
+// Helper to apply theme to document
+const applyTheme = (theme: Theme) => {
   if (typeof document !== 'undefined') {
-  // We use a `.light` class to enable the light theme overrides; dark is the default
-  document.documentElement.classList.toggle('light', initialTheme === 'light');
+    // We use a `.light` class to enable the light theme overrides; dark is the default
+    document.documentElement.classList.toggle('light', theme === 'light');
     // Also expose current theme and a data attribute for easier debugging in devtools
-    document.documentElement.setAttribute('data-theme', initialTheme);
-  // quick debug trace
-  console.debug('[uiStore] initialTheme:', initialTheme, 'document.classList:', document.documentElement.className);
+    document.documentElement.setAttribute('data-theme', theme);
+    console.debug('[uiStore] Applied theme:', theme, 'classList:', document.documentElement.className);
   }
+};
 
-  return {
-    sidebarOpen: false,
-    setSidebarOpen: (open) => set({ sidebarOpen: open }),
-    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-    filtersOpen: false,
-    setFiltersOpen: (open) => set({ filtersOpen: open }),
-    modalOpen: false,
-    setModalOpen: (open) => set({ modalOpen: open }),
-    loading: false,
-    setLoading: (loading) => set({ loading }),
+export const useUIStore = create<UIStore>()(
+  devtools(
+    persist(
+      (set, get) => ({
+        sidebarOpen: false,
+        setSidebarOpen: (open) => set({ sidebarOpen: open }, false, 'setSidebarOpen'),
+        toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen }), false, 'toggleSidebar'),
+        filtersOpen: false,
+        setFiltersOpen: (open) => set({ filtersOpen: open }, false, 'setFiltersOpen'),
+        modalOpen: false,
+        setModalOpen: (open) => set({ modalOpen: open }, false, 'setModalOpen'),
+        loading: false,
+        setLoading: (loading) => set({ loading }, false, 'setLoading'),
 
-    theme: initialTheme,
-    setTheme: (t: Theme) => {
-      set({ theme: t });
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', t);
-  // Toggle the `.light` class when switching to light mode; remove it for dark mode
-  document.documentElement.classList.toggle('light', t === 'light');
-  document.documentElement.setAttribute('data-theme', t);
-  console.debug('[uiStore] setTheme ->', t, 'classList:', document.documentElement.className);
+        theme: 'dark', // default, will be overridden by persisted value
+        setTheme: (t: Theme) => {
+          set({ theme: t }, false, 'setTheme');
+          applyTheme(t);
+        },
+        toggleTheme: () => {
+          const next = get().theme === 'dark' ? 'light' : 'dark';
+          get().setTheme(next);
+        },
+      }),
+      {
+        name: 'rv-ui-store',
+        partialize: (state) => ({ theme: state.theme }), // Only persist theme
+        onRehydrateStorage: () => (state) => {
+          if (state) {
+            applyTheme(state.theme);
+          }
+        },
       }
-    },
-    toggleTheme: () => {
-      const next = get().theme === 'dark' ? 'light' : 'dark';
-      get().setTheme(next);
-    },
-  };
-});
+    ),
+    { name: 'UI Store' }
+  )
+);
