@@ -1,6 +1,6 @@
 # Accessibility Guide
 
-This document tracks accessibility improvements and compliance with WCAG 2.1 AA standards for the Rigveda Explorer application.
+This document tracks accessibility improvements and compliance with WCAG 2.1 AA standards for the Rigveda application.
 
 ## Accessibility Goals
 

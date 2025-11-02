@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 
 /**
  * React Query client configuration
- * Optimized for the Rigveda Explorer application
+ * Optimized for the Rigveda application
  */
 export const queryClient = new QueryClient({
   defaultOptions: {

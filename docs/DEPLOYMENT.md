@@ -1,4 +1,4 @@
-# Deployment Guide - Rigveda Explorer
+# Deployment Guide - Rigveda
 
 **Last Updated**: 2025-11-02
 **Status**: Production Ready ✅
@@ -262,10 +262,10 @@ server {
 
 ```bash
 # Build image
-docker build -t rigveda-explorer .
+docker build -t Rigveda .
 
 # Run container
-docker run -d -p 80:80 rigveda-explorer
+docker run -d -p 80:80 Rigveda
 ```
 
 ---
@@ -278,7 +278,7 @@ Create `.env.production`:
 
 ```bash
 # API Configuration (if using external API)
-VITE_API_URL=https://api.rigveda-explorer.app
+VITE_API_URL=https://api.Rigveda.app
 
 # Analytics (optional)
 VITE_GA_ID=G-XXXXXXXXXX
@@ -309,17 +309,17 @@ No special environment variables required for basic deployment.
 **Automated Testing:**
 ```bash
 # Run Lighthouse audit
-npx lighthouse https://rigveda-explorer.app --view
+npx lighthouse https://Rigveda.app --view
 
 # Check for broken links
-npx broken-link-checker https://rigveda-explorer.app
+npx broken-link-checker https://Rigveda.app
 ```
 
 ### 2. Configure Custom Domain
 
 **Vercel:**
 ```bash
-vercel domains add rigveda-explorer.app
+vercel domains add Rigveda.app
 ```
 
 **Netlify:**
@@ -334,7 +334,7 @@ Both Vercel and Netlify provide free SSL automatically via Let's Encrypt.
 For custom servers:
 ```bash
 # Using Certbot
-sudo certbot --nginx -d rigveda-explorer.app
+sudo certbot --nginx -d Rigveda.app
 ```
 
 ### 4. DNS Configuration
@@ -357,7 +357,7 @@ CNAME www  your-site.netlify.app
 
 **Google Search Console:**
 1. Verify domain ownership
-2. Submit sitemap: `https://rigveda-explorer.app/sitemap.xml`
+2. Submit sitemap: `https://Rigveda.app/sitemap.xml`
 3. Request indexing
 
 **Bing Webmaster Tools:**
@@ -502,7 +502,7 @@ npm run build
 
 If using external API, configure CORS headers on the API server:
 ```
-Access-Control-Allow-Origin: https://rigveda-explorer.app
+Access-Control-Allow-Origin: https://Rigveda.app
 ```
 
 ---
@@ -583,8 +583,8 @@ Verify these targets are met:
 - Stack Overflow: Technical questions
 
 ### Contact
-- Email: support@rigveda-explorer.app (update this)
-- GitHub: https://github.com/your-org/rigveda-explorer
+- Email: support@Rigveda.app (update this)
+- GitHub: https://github.com/your-org/Rigveda
 
 ---
 

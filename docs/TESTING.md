@@ -1,4 +1,4 @@
-# Testing Guide - Rigveda Explorer
+# Testing Guide - Rigveda
 
 **Last Updated**: 2025-11-02
 **Test Framework**: Vitest + React Testing Library
@@ -17,7 +17,7 @@
 
 ## Overview
 
-The Rigveda Explorer uses a comprehensive testing strategy with:
+The Rigveda uses a comprehensive testing strategy with:
 
 - **Unit Tests**: Testing individual utilities and functions
 - **Component Tests**: Testing React components in isolation

@@ -1,6 +1,6 @@
 # State Management Guide
 
-This document describes the state management architecture used in the Rigveda Explorer application.
+This document describes the state management architecture used in the Rigveda application.
 
 ## Overview
 

@@ -1,4 +1,4 @@
-# Rigveda Explorer
+# Rigveda
 
 > An interactive web application for exploring and studying the Rigveda, the oldest of the four Vedas.
 
