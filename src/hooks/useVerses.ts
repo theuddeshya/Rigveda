@@ -1,27 +1,41 @@
-import { useState, useEffect } from 'react';
-import { loadVerses } from '../utils/verseLoader';
-import type { VerseData } from '../store/verseStore';
+import { useQuery } from '@tanstack/react-query';
+import { loadVerses, loadMandala } from '../utils/verseLoader';
 
+/**
+ * Hook to fetch all verses using React Query
+ * Data is cached for 1 hour and persists for 24 hours
+ */
 export const useVerses = () => {
-  const [verses, setVerses] = useState<VerseData[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['verses', 'all'],
+    queryFn: loadVerses,
+    staleTime: 1000 * 60 * 60, // 1 hour
+    gcTime: 1000 * 60 * 60 * 24, // 24 hours
+  });
 
-  useEffect(() => {
-    const fetchVerses = async () => {
-      try {
-        setLoading(true);
-        const data = await loadVerses();
-        setVerses(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load verses');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchVerses();
-  }, []);
+  return {
+    verses: data || [],
+    loading: isLoading,
+    error: error ? (error instanceof Error ? error.message : 'Failed to load verses') : null,
+  };
+};
 
-  return { verses, loading, error };
+/**
+ * Hook to fetch a specific mandala using React Query
+ * Each mandala is cached separately for efficient loading
+ */
+export const useMandala = (mandalaNumber: number) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['mandala', mandalaNumber],
+    queryFn: () => loadMandala(mandalaNumber),
+    staleTime: 1000 * 60 * 60, // 1 hour
+    gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    enabled: mandalaNumber >= 1 && mandalaNumber <= 10, // Only fetch valid mandalas
+  });
+
+  return {
+    verses: data || [],
+    loading: isLoading,
+    error: error ? (error instanceof Error ? error.message : 'Failed to load mandala') : null,
+  };
 };
