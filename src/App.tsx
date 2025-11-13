@@ -9,6 +9,7 @@ const Explore = lazy(() => import('./pages/Explore'));
 const Discover = lazy(() => import('./pages/Discover'));
 const Learn = lazy(() => import('./pages/Learn'));
 const Settings = lazy(() => import('./pages/Settings'));
+const About = lazy(() => import('./pages/About'));
 
 const App = () => (
   <Router>
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/discover" element={<Discover />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Suspense>
     </PageErrorBoundary>

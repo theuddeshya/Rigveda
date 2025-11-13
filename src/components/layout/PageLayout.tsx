@@ -1,14 +1,16 @@
 import type { ReactNode } from 'react';
 import Navbar from './Navbar';
-import Footer from './Footer';
 import Sidebar from './Sidebar';
+import Footer from './Footer';
 
 interface PageLayoutProps {
   children: ReactNode;
+  showNavbar?: boolean;
   showFooter?: boolean;
+  showSidebar?: boolean;
 }
 
-const PageLayout = ({ children, showFooter = true }: PageLayoutProps) => {
+const PageLayout = ({ children, showNavbar = true, showFooter = true, showSidebar = true }: PageLayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col bg-vedic-ui text-vedic-text">
       {/* Skip to main content link for keyboard accessibility */}
@@ -18,8 +20,8 @@ const PageLayout = ({ children, showFooter = true }: PageLayoutProps) => {
       >
         Skip to main content
       </a>
-      <Navbar />
-      <Sidebar />
+      {showNavbar && <Navbar />}
+      {showSidebar && <Sidebar />}
       <main id="main-content" className="flex-1">
         {children}
       </main>

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, memo } from 'react';
 import { useBookmarks } from '../../hooks/useBookmarks';
 import { cn } from '../../lib/utils';
 import { loadMandala } from '../../utils/verseLoader';
+import { getAudioUrl } from '../../utils/audioUtils';
+import { Volume2, VolumeX, Loader2 } from 'lucide-react';
 
 // TODO: Export Verse type to central types file later
 interface Translation {
@@ -64,22 +66,58 @@ const VerseCard = ({
     verse.text.translations && verse.text.translations.length > 0 ? [verse.text.translations[0].translator] : []
   );
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [audioLoading, setAudioLoading] = useState(false);
+  const [audioError, setAudioError] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const allTranslators = (localVerse.text?.translations || []).map(t => t.translator);
   const { isBookmarked, toggleBookmark } = useBookmarks();
 
-  const audioFilePath = `/assets/audio/${localVerse.mandala}-${localVerse.sukta}-${localVerse.verse}.mp3`;
+  // Load audio URL when component mounts
+  useEffect(() => {
+    let mounted = true;
+
+    async function fetchAudioUrl() {
+      setAudioLoading(true);
+      setAudioError(false);
+      try {
+        const url = await getAudioUrl(localVerse.mandala, localVerse.sukta);
+        if (mounted) {
+          setAudioUrl(url);
+          if (!url) {
+            setAudioError(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching audio URL:', error);
+        if (mounted) {
+          setAudioError(true);
+        }
+      } finally {
+        if (mounted) {
+          setAudioLoading(false);
+        }
+      }
+    }
+
+    fetchAudioUrl();
+
+    return () => {
+      mounted = false;
+    };
+  }, [localVerse.mandala, localVerse.sukta]);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.onended = () => setIsPlaying(false);
       audioRef.current.onerror = () => {
-        console.error(`Error loading audio for ${audioFilePath}`);
+        console.error(`Error loading audio for sukta ${localVerse.mandala}.${localVerse.sukta}`);
         setIsPlaying(false);
+        setAudioError(true);
       };
     }
-  }, [audioFilePath]);
+  }, [localVerse.mandala, localVerse.sukta]);
 
   // If incoming verse is missing key metadata (deity or translations), try
   // to lazy-load the mandala and enrich localVerse with the detailed entry.
@@ -198,20 +236,36 @@ const VerseCard = ({
           )}
               {enableAudio && (
             <button
-              aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+              aria-label={audioLoading ? 'Loading audio' : audioError ? 'Audio unavailable' : isPlaying ? 'Pause audio' : 'Play audio'}
               className={cn(
                 "min-w-[44px] min-h-[44px] flex items-center justify-center",
                 "rounded-lg transition-all duration-200",
-                "text-muted-foreground hover:text-vedic-text hover:bg-vedic-sage/20",
-                "hover:scale-110",
-                isPlaying && "text-accent"
+                "border border-vedic-accent/20",
+                audioError
+                  ? "text-muted-foreground/50 cursor-not-allowed bg-vedic-ui/20"
+                  : audioLoading
+                  ? "text-muted-foreground bg-vedic-ui/30"
+                  : isPlaying
+                  ? "text-accent bg-accent/10 hover:bg-accent/20 border-accent/40"
+                  : "text-muted-foreground hover:text-accent hover:bg-accent/10 hover:border-accent/30",
+                !audioError && !audioLoading && "hover:scale-105 active:scale-95"
               )}
               onClick={handleAudioToggle}
+              disabled={audioLoading || audioError || !audioUrl}
+              title={audioError ? 'Audio not available for this sukta' : audioLoading ? 'Loading audio...' : isPlaying ? 'Pause' : 'Play'}
             >
-              <span className="text-xl">{isPlaying ? '⏸️' : '🔊'}</span>
+              {audioLoading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : audioError || !audioUrl ? (
+                <VolumeX className="w-5 h-5" />
+              ) : isPlaying ? (
+                <Volume2 className="w-5 h-5 animate-pulse" />
+              ) : (
+                <Volume2 className="w-5 h-5" />
+              )}
             </button>
           )}
-        {enableAudio && <audio ref={audioRef} src={audioFilePath} preload="none" />}
+        {enableAudio && audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
         </div>
       </div>
 

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Search, Filter, ChevronDown, ChevronUp } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { Search } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import FilterPanel from '../components/filters/FilterPanel';
 import KeyboardShortcutsDialog from '../components/ui/KeyboardShortcutsDialog';
@@ -35,7 +34,6 @@ const Explore = () => {
   const [currentFilters, setCurrentFilters] = useState<Filters>({});
   const [viewMode, setViewMode] = useState<ViewMode>('mandalas');
   const [selectedMandala, setSelectedMandala] = useState<number | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
 
   // When a single mandala is selected, we may lazily load just that mandala
   // to avoid requiring the entire dataset up-front.
@@ -212,63 +210,37 @@ const Explore = () => {
       <KeyboardShortcutsDialog isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
       <div className="min-h-screen bg-gradient-to-b from-vedic-ui via-vedic-bg to-vedic-ui py-8 px-4">
         <div className="max-w-6xl mx-auto">
-          {/* Search bar with integrated filter toggle - Always visible */}
+          {/* Search bar - Always visible above heading */}
           <div className="mb-6">
             <div className="relative">
               <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                className={cn(
-                  "w-full pl-10 pr-28 py-2.5 rounded-lg min-h-[44px]",
-                  "bg-vedic-ui/30 text-foreground border border-vedic-accent/20",
-                  "placeholder:text-muted-foreground",
-                  "focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent",
-                  "transition-all duration-200"
-                )}
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg min-h-[44px] bg-vedic-ui/30 text-foreground border border-vedic-accent/20 placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-accent transition-all duration-200"
                 value={currentFilters.search || ''}
                 onChange={e => setCurrentFilters({ ...currentFilters, search: e.target.value })}
                 placeholder="Search verses, deities, keywords..."
               />
-              {/* Filter toggle button - visible on all pages */}
-              <button
-                className={cn(
-                  "absolute right-2 top-1/2 -translate-y-1/2",
-                  "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium",
-                  "bg-vedic-sage/20 text-foreground border border-vedic-accent/20",
-                  "hover:bg-vedic-sage/30",
-                  "transition-all duration-200"
-                )}
-                type="button"
-                onClick={() => setShowFilters(!showFilters)}
-                aria-label={showFilters ? "Hide filters" : "Show filters"}
-              >
-                <Filter size={16} className="text-accent" />
-                <span>Filters</span>
-                {showFilters ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-              </button>
             </div>
-
-            {/* Compact filters panel below search bar - visible on all pages when toggled */}
-            {showFilters && (
-              <div className="mt-3 p-4 rounded-lg bg-card/50 border border-vedic-accent/20">
-                {loading && !currentFilters.mandala ? (
-                  <FilterSkeleton />
-                ) : (
-                  <FilterPanel allVerses={sourceAllVerses} currentFilters={currentFilters} onFilterChange={setCurrentFilters} />
-                )}
-              </div>
-            )}
           </div>
-
+          
           <h1 className="text-3xl md:text-4xl font-reading mb-6 md:mb-8 font-bold text-vedic-text">Explore the Verses</h1>
 
-          {/* Search history only in verses view */}
+          {/* Only show filters in verses view */}
           {viewMode === 'verses' && (
-            <SearchHistory
-              history={history}
-              onHistoryClick={handleSearchHistoryClick}
-              onClearHistory={clearHistory}
-            />
+            <>
+              {loading && !currentFilters.mandala ? (
+                <FilterSkeleton />
+              ) : (
+                <FilterPanel allVerses={sourceAllVerses} currentFilters={currentFilters} onFilterChange={setCurrentFilters} />
+              )}
+
+              <SearchHistory
+                history={history}
+                onHistoryClick={handleSearchHistoryClick}
+                onClearHistory={clearHistory}
+              />
+            </>
           )}
 
           {( (loading && viewMode === 'mandalas') || (selectedMandala && loadingMandala === selectedMandala) ) && (
